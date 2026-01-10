@@ -1,1 +1,0 @@
-# ITK-school-management-system
