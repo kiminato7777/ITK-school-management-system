@@ -1,0 +1,188 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Khmer OS Battambang', "Poppins", sans-serif;
+}
+
+body {
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(#2C0157 10%, transparent 10%);
+  background-size: 50px 50px;
+  opacity: 0.03;
+  animation: rotate 100s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.95);
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+/* Logo Styling */
+.container img {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.container:hover img {
+  transform: scale(1.1);
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+
+form input {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+  padding: 12px 15px;
+  border: 2px solid #eef2f7;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+}
+
+form input:focus {
+  border-color: #2C0157;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(44, 1, 87, 0.1);
+  transform: translateY(-2px);
+}
+
+form input::placeholder {
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+/* Password eye icon adjustment */
+.password-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.password-container input {
+  margin-bottom: 0;
+  padding-right: 45px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #adb5bd;
+  transition: color 0.3s;
+  font-size: 1.1rem;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  color: #2C0157;
+}
+
+form button {
+  font-size: 1rem;
+  padding: 14px 0;
+  width: 100%;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: linear-gradient(45deg, #2C0157, #4a028f);
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(44, 1, 87, 0.3);
+}
+
+form button:hover {
+  background: linear-gradient(45deg, #4a028f, #2C0157);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(44, 1, 87, 0.4);
+}
+
+form button:active {
+  transform: translateY(1px);
+}
+
+/* Dev link styles */
+#createAdminLink {
+  font-size: 0.85rem;
+  color: #6c757d !important;
+  text-decoration: none;
+  transition: color 0.3s;
+  display: inline-block;
+  padding: 5px;
+}
+
+#createAdminLink:hover {
+  color: #2C0157 !important;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 500px) {
+  .container {
+    padding: 30px 20px;
+    margin: 15px;
+  }
+
+  body {
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+}

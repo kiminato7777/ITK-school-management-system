@@ -1,0 +1,223 @@
+/**
+ * Local Khmer Fonts - Font Face Definitions
+ * All fonts from the fonts/ directory
+ */
+
+/* AKbalthom Fonts */
+@font-face {
+    font-family: 'AKbalthom Freedom Plus';
+    src: url('fonts/AKbalthom Freedom Plus.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AKbalthom Freedom';
+    src: url('fonts/AKbalthom Freedom.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* DeySor */
+@font-face {
+    font-family: 'DeySor';
+    src: url('fonts/DeySor-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Kh Series Fonts */
+@font-face {
+    font-family: 'Kh-Muol';
+    src: url('fonts/Kh-Muol.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-Muol-Pali';
+    src: url('fonts/Kh-Muol-Pali.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-Preyn';
+    src: url('fonts/Kh-Preyn.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-Siemreap';
+    src: url('fonts/Kh-Siemreap.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-SrokK';
+    src: url('fonts/Kh-SrokK.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-Svayrieng';
+    src: url('fonts/Kh-Svayrieng.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-System';
+    src: url('fonts/Kh-System.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-Trapa';
+    src: url('fonts/Kh-Trapa.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kh-TsKan';
+    src: url('fonts/Kh-TsKan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* KhPreyVeng */
+@font-face {
+    font-family: 'KhPreyVeng';
+    src: url('fonts/KhPreyVeng.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* KhUni Series */
+@font-face {
+    font-family: 'KhUniF1';
+    src: url('fonts/KhUniF1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KhUniL1';
+    src: url('fonts/KhUniL1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KhUniN2';
+    src: url('fonts/KhUniN2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KhUniR1';
+    src: url('fonts/KhUniR1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KhUniR2';
+    src: url('fonts/KhUniR2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KhUniSerif';
+    src: url('fonts/KhUniSerif.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Khm Series */
+@font-face {
+    font-family: 'Khmvanara';
+    src: url('fonts/Khmvanara.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Khmviravuth';
+    src: url('fonts/Khmviravuth.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Khmwatphnom';
+    src: url('fonts/Khmwatphnom.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* NiDA Series */
+@font-face {
+    font-family: 'NiDAAngkor';
+    src: url('fonts/NiDAAngkor.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDABayon';
+    src: url('fonts/NiDABayon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDAChenla';
+    src: url('fonts/NiDAChenla.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDAFunan';
+    src: url('fonts/NiDAFunan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDAKhmerEmpire';
+    src: url('fonts/NiDAKhmerEmpire.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDASowanaphum';
+    src: url('fonts/NiDASowanaphum.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NiDATaprom';
+    src: url('fonts/NiDATaprom.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Khmer OS Battambang */
+@font-face {
+    font-family: 'Khmer OS Battambang';
+    src: url('fonts/Khmer OS Battambang.woff2') format('woff2'),
+        url('fonts/Khmer OS Battambang.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

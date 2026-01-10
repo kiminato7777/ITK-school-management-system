@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>សាលាអន្តរជាតិ អាយធីឃេ</title>
+    <link rel="icon" type="image/jpeg" href="img/1.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <!-- Khmer OS Battambang Font -->
+    <script src="global-settings.js" defer></script>
+    <style>
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Khmer OS Battambang', sans-serif !important;
+        }
+    </style>
+
+    <style>
+        /* --- ENHANCED NOTIFICATION POPOVER STYLES --- */
+        .notification-popover {
+            max-width: 500px !important;
+            border: 2px solid #0d6efd !important;
+            border-radius: 15px !important;
+            box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2) !important;
+            font-family: 'Khmer OS Battambang', 'Arial', sans-serif;
+        }
+
+        .notification-popover .popover-header {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 1.1rem !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 13px 13px 0 0 !important;
+            padding: 12px 15px !important;
+        }
+
+        .notification-popover .popover-body {
+            padding: 20px !important;
+            max-height: 500px !important;
+            overflow-y: auto !important;
+        }
+
+        /* Notification badge animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .notification-badge-pulse {
+            animation: pulse 1s infinite;
+        }
+
+        /* Tab styles for notification */
+        .notification-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .notification-tab {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #6c757d;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+            font-family: 'Khmer OS Battambang', 'Arial', sans-serif;
+        }
+
+        .notification-tab:hover {
+            color: #0d6efd;
+        }
+
+        .notification-tab.active {
+            color: #0d6efd !important;
+            border-bottom-color: #0d6efd !important;
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+
+        /* Student list styles */
+        .notification-student-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .notification-student-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .notification-student-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .notification-student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .student-details {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .student-details span {
+            margin-right: 10px;
+        }
+
+        .student-details i {
+            margin-right: 5px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .student-status {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-upcoming {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-late {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-boarding {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .amount-due {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: right;
+            min-width: 80px;
+        }
+
+        .amount-upcoming {
+            color: #ffc107;
+        }
+
+        .amount-late {
+            color: #dc3545;
+        }
+
+        /* Summary card in popover */
+        .notification-summary {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0d6efd;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            color: #6c757d;
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .summary-value.upcoming {
+            color: #ffc107;
+        }
+
+        .summary-value.late {
+            color: #dc3545;
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: #6c757d;
+        }
+
+        .notification-empty i {
+            font-size: 3rem;
+            color: #dee2e6;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty p {
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* Shake animation for urgent notifications */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-2px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(2px);
+            }
+        }
+
+        /* --- ENHANCED ANIMATED BUTTERFLIES --- */
+        .butterfly {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.9;
+            animation: butterflyFly 15s infinite linear;
+            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.4));
+        }
+
+        .butterfly::before,
+        .butterfly::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d6efd, #6ea8fe);
+            border-radius: 50% 50% 0 50%;
+            transform: rotate(45deg);
+            animation: butterflyWings 1s infinite alternate ease-in-out;
+        }
+
+        .butterfly::after {
+            transform: rotate(-45deg) scaleX(-1);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes butterflyFly {
+            0% {
+                left: -60px;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-25px) rotate(8deg);
+            }
+
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            75% {
+                transform: translateY(20px) rotate(-8deg);
+            }
+
+            100% {
+                left: calc(100vw + 60px);
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        @keyframes butterflyWings {
+            0% {
+                transform: rotate(45deg) scale(0.9);
+            }
+
+            100% {
+                transform: rotate(45deg) scale(1.1);
+            }
+        }
+
+        /* --- CLEAN CARD DESIGN --- */
+        .stat-card {
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            transition: all 0.3s ease;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            background: white;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+            border-color: #0d6efd;
+        }
+
+        .card-primary {
+            border-left: 4px solid #0d6efd;
+        }
+
+        .card-warning {
+            border-left: 4px solid #ffc107;
+        }
+
+        .card-danger {
+            border-left: 4px solid #dc3545;
+        }
+
+        .card-success {
+            border-left: 4px solid #198754;
+        }
+
+        .card-info {
+            border-left: 4px solid #0dcaf0;
+        }
+
+        .card-purple {
+            border-left: 4px solid #6f42c1;
+        }
+
+        .card-teal {
+            border-left: 4px solid #20c997;
+        }
+
+        .card-primary-bg {
+            background-color: white;
+        }
+
+        .card-warning-bg {
+            background-color: white;
+        }
+
+        .card-danger-bg {
+            background-color: white;
+        }
+
+        .card-success-bg {
+            background-color: white;
+        }
+
+        .card-info-bg {
+            background-color: white;
+        }
+
+        .card-purple-bg {
+            background-color: white;
+        }
+
+        .card-teal-bg {
+            background-color: white;
+        }
+
+        .text-pink-primary {
+            color: #0d6efd;
+        }
+
+        .text-pink-dark {
+            color: #c71585;
+        }
+
+        .text-purple {
+            color: #6f42c1;
+        }
+
+        .text-teal {
+            color: #20c997;
+        }
+
+        /* Loading animation */
+        .stat-card.loading .display-4 {
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            min-width: 60px;
+            display: inline-block;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Custom Loader */
+        .loader {
+            width: 96px;
+            box-sizing: content-box;
+            height: 48px;
+            background: #FFF;
+            border-color: #de3500;
+            border-style: solid;
+            border-width: 2px 2px 50px 2px;
+            border-radius: 100%;
+            position: relative;
+            animation: 3s yinYang linear infinite;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            background: #FFF;
+            border: 18px solid #de3500;
+            border-radius: 100%;
+            width: 12px;
+            height: 12px;
+            box-sizing: content-box;
+        }
+
+        .loader:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: #de3500;
+            border: 18px solid #FFF;
+            border-radius: 100%;
+            width: 12px;
+            height: 12px;
+            box-sizing: content-box;
+        }
+
+        @keyframes yinYang {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .loader-btn {
+            transform: scale(0.4);
+            display: inline-block;
+            margin: -25px -30px -25px -30px;
+            vertical-align: middle;
+        }
+
+        /* Simple icons */
+        .stat-card .d-flex i {
+            opacity: 0.8;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .stat-card:hover .d-flex i {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Footer styles */
+        .app-footer {
+            padding: 15px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        /* Update indicator */
+        #data-update-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #0d6efd;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .display-4 {
+                font-size: 2rem !important;
+            }
+
+            .stat-card {
+                margin-bottom: 15px;
+            }
+
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            #main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .app-footer {
+                position: relative;
+                margin-top: 20px;
+            }
+
+            .notification-popover {
+                max-width: 350px !important;
+                left: 10px !important;
+                right: 10px !important;
+            }
+
+            .notification-tab {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Alert animations */
+        .dashboard-error-alert {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .footer-update-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .footer-copyright {
+            font-weight: 500;
+        }
+
+        .footer-developer {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+
+        #main-content {
+            min-height: calc(100vh - 100px);
+            padding-bottom: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- CUSTOM CSS THEME --- */
+        :root {
+            --bs-pink-primary: #2C0157;
+            --bs-pink-dark: #1a0033;
+            --bs-pink-light: #f3e5f5;
+            --bs-body-bg: #ffffff;
+            --bs-secondary: #6c757d;
+        }
+
+        body {
+            font-family: 'Khmer OS Battambang', 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #052c65;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(10, 88, 202, 0.03) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Sidebar styles */
+        #sidebar {
+            width: 250px;
+            min-width: 250px;
+            background: #2C0157;
+            color: white;
+            padding: 0;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 15px;
+            background: #2C0157;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #sidebar-logo {
+            width: 80px;
+            height: 80px;
+            margin-right: 0;
+            margin-bottom: 10px;
+            object-fit: cover;
+            background: white;
+            padding: 4px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sidebar Navigation Links */
+        #sidebar .nav {
+            padding-top: 10px;
+        }
+
+        #sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-size: 1rem;
+            /* Standardized font size */
+        }
+
+        #sidebar .nav-link i {
+            margin-right: 10px;
+        }
+
+        #sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #0d6efd;
+            padding-left: 25px;
+        }
+
+        #sidebar .nav-link.active {
+            background: linear-gradient(90deg, #0d6efd, rgba(13, 110, 253, 0.8));
+            color: white;
+            font-weight: bold;
+            border-left-color: white;
+        }
+
+        /* Main content */
+        #main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Table styles */
+        .table {
+            white-space: nowrap;
+            table-layout: auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead th {
+            background: #2C0157;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            vertical-align: middle;
+            padding: 0.75rem 1rem;
+            border: none;
+        }
+
+        .table.small {
+            font-size: 0.8rem;
+        }
+
+        .table.small td {
+            vertical-align: middle;
+        }
+
+        .table.small td:last-child {
+            width: 1%;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sm:hover {
+            transform: scale(1.05);
+        }
+
+        /* Notification Button Styles */
+        .btn-pink-primary {
+            background: #2C0157;
+            color: white;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-pink-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn-pink-primary.btn-danger {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Animated Butterflies -->
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+
+    <!-- Enhanced Notification Button -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <button id="notification-btn" type="button"
+            class="btn btn-pink-primary shadow rounded-circle d-flex align-items-center justify-content-center position-relative"
+            style="width: 60px; height: 60px; font-size: 1.8rem; box-shadow: 0 4px 20px rgba(255,105,180,0.3);"
+            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
+            data-bs-custom-class="notification-popover" title="ការជូនដំណឹងសំខាន់ៗ"
+            data-bs-content="កំពុងទាញយកទិន្នន័យ...">
+            <i class="fi fi-rr-bell"></i>
+            <span id="notif-badge"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-2 border-white d-none"
+                style="font-size: 0.75rem; padding: 0.25em 0.6em; min-width: 22px;">0</span>
+        </button>
+    </div>
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <img src="img/logo.jpg" alt="School Logo" id="sidebar-logo">
+            </a>
+            <span class="sidebar-title-text">
+                <i class="fi fi-rr-graduation-cap"></i> ប្រព័ន្ធគ្រប់គ្រង
+            </span>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="index.html">
+                <i class="fi fi-rr-home"></i> ផ្ទាំងគ្រប់គ្រង
+            </a>
+
+            <a class="nav-link" href="registration.html">
+                <i class="fi fi-rr-user-add"></i> ការចុះឈ្មោះសិស្ស
+            </a>
+
+            <a class="nav-link" href="data-tracking.html">
+                <i class="fi fi-rr-users-alt"></i> បញ្ជីទិន្នន័យសិស្ស
+            </a>
+
+            <a class="nav-link" href="dropout-students.html">
+                <i class="fi fi-rr-user-xmark"></i> សិស្សបោះបង់ការសិក្សា
+            </a>
+
+            <a class="nav-link" href="income-expense.html">
+                <i class="fi fi-rr-file-invoice-dollar"></i> ចំណូលចំណាយ
+            </a>
+
+            <a class="nav-link" href="settings.html">
+                <i class="fi fi-rr-settings"></i> ការកំណត់ (Setting)
+            </a>
+
+            <a class="nav-link" href="user-management.html" id="navUserManagement">
+                <i class="fi fi-rr-shield-check"></i> គ្រប់គ្រងអ្នកប្រើប្រាស់
+            </a>
+
+            <hr class="sidebar-divider my-2 mx-3" style="border-top: 1px solid rgba(255,255,255,0.3);">
+
+            <!-- User Profile Section -->
+            <div class="px-3 py-2 text-white">
+                <div class="d-flex flex-column align-items-center mb-2">
+                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-2 shadow position-relative"
+                        style="width: 60px; height: 60px; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.3);">
+                        <img id="sidebar-user-photo" src="" alt="User Profile"
+                            style="width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top: 0; left: 0;">
+                        <i id="sidebar-user-icon" class="fi fi-rr-user text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                    <div style="font-size: 0.9rem; width: 100%; text-align: center;">
+                        <div class="fw-bold text-truncate" id="user-display-email">...</div>
+                        <div class="badge bg-light text-primary mt-1" id="user-role-badge" style="font-weight: normal;">
+                            ...</div>
+                        <div class="small text-white-50 mt-1 text-truncate" id="user-display-gmail"
+                            style="font-size: 0.8rem;">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="nav-link text-warning mt-1" href="#" id="logout-link" onclick="handleLogout(event)">
+                <i class="fi fi-rr-exit"></i> ចាកចេញ
+            </a>
+        </nav>
+    </div>
+
+    <div id="main-content">
+
+        <h1 class="mb-4 text-center text-pink-dark">
+            <i class="fi fi-rr-school me-2"></i>សាលាអន្តរជាតិ អាយធីឃេ<br>
+        </h1>
+
+        <div class="row g-4 mb-5">
+            <!-- Total All Students Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-success card-success-bg">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-users"></i> សិស្សចុះឈ្មោះសរុបទាំងអស់
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-success" id="totalAllStudents">0</h2>
+                        <i class="fi fi-rr-users text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-primary">ប្រុស: <span id="totalAllMale">0</span></small> |
+                        <small class="text-danger">ស្រី: <span id="totalAllFemale">0</span></small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Total Income Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-primary card-primary-bg" style="border-left: 4px solid #198754;">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-arrow-up"></i> ចំណូលសរុប (Income)
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-success" id="dashboardTotalIncome">$0.00</h2>
+                        <i class="fi fi-rr-hand-holding-dollar text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-success">ចំណូលជាក់ស្តែងពីប្រតិបត្តិការ</small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Total Expense Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-danger card-danger-bg">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-arrow-down"></i> ចំណាយសរុប (Expense)
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-danger" id="dashboardTotalExpense">$0.00</h2>
+                        <i class="fi fi-rr-stats text-danger" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-danger">ចំណាយជាក់ស្តែងពីប្រតិបត្តិការ</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Payments & Staff -->
+        <div class="row g-3 mb-4">
+            <!-- Upcoming Payments Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-warning card-warning-bg">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-bell"></i> ជិតដល់ថ្ងៃបង់ (១ សប្តាហ៍)
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-warning" id="upcomingPayment">0</h2>
+                        <i class="fi fi-rr-calendar-check text-warning" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-warning">ត្រៀមខ្លួនសម្រាប់ជូនដំណឹង</small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Late Pending Payments Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-danger card-danger-bg">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-calendar-xmark"></i> អ្នកជំណាក់មិនទាន់បង់សរុប
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-danger" id="latePendingTotal">0</h2>
+                        <i class="fi fi-rr-exclamation text-danger" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-danger">ស្ថានភាព: Pending, Late, Partial</small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Total Staff Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-info card-info-bg">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-briefcase"></i> បុគ្គលិកសរុប
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-info" id="totalStaff">0</h2>
+                        <i class="fi fi-rr-member-list text-info" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-primary">ប្រុស: <span id="totalStaffMale">0</span></small> |
+                        <small class="text-danger">ស្រី: <span id="totalStaffFemale">0</span></small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Drop Out Students Card -->
+            <div class="col-md-4">
+                <div class="card stat-card p-3 card-secondary" style="border-left: 4px solid #6c757d;">
+                    <h5 class="card-title text-muted">
+                        <i class="fi fi-rr-user-xmark"></i> សិស្សបោះបង់ការសិក្សា
+                    </h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="display-4 text-secondary" id="totalDropoutStudents">0</h2>
+                        <i class="fi fi-rr-user-xmark text-secondary" style="font-size: 3rem;"></i>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-secondary">សិស្សដែលបានឈប់រៀន</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Update Timestamp -->
+        <div id="data-timestamp" class="text-muted small text-center mb-3">
+            <i class="fi fi-rr-refresh me-1"></i>កំពុងទាញយកទិន្នន័យ...
+        </div>
+
+        <footer class="app-footer">
+            <p><i class="fi fi-rr-copyright me-1"></i> 2026 គ្រប់គ្រងសាលា. Developed by មាស មករា.</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth-check.js"></script>
+
+    <script src="khmer-font.js"></script>
+    <script src="dashboard-stats.js"></script>
+
+    <script>
+        // Initialize dashboard statistics
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Dashboard loaded");
+
+            // Wait for Bootstrap to be fully loaded
+            const checkBootstrap = setInterval(() => {
+                if (typeof bootstrap !== 'undefined') {
+                    clearInterval(checkBootstrap);
+
+                    if (typeof initializeDashboard === 'function') {
+                        initializeDashboard();
+                    } else {
+                        console.error("initializeDashboard function not found!");
+                    }
+                }
+            }, 50);
+
+            // Timeout after 5 seconds
+            setTimeout(() => {
+                clearInterval(checkBootstrap);
+                if (typeof bootstrap === 'undefined') {
+                    console.error("Bootstrap failed to load!");
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

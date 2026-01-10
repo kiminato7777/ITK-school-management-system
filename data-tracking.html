@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>សាលា អន្តរជាតិ អាយធីឃេ</title>
+    <link rel="icon" type="image/jpeg" href="img/1.jpg">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.min.css">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Flatpickr (Date Picker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Load Khmer OS Battambang font -->
+    <style>
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        :root {
+            --bs-pink-primary: #2C0157;
+            --bs-pink-dark: #1a0033;
+            --bs-pink-hover: #4a028f;
+            --bs-body-bg: #ffffff;
+            --bs-blue-light: #e3f2fd;
+            --bs-orange-alert: #fff3cd;
+            --bs-red-alert: #f8d7da;
+            --bs-green-success: #d1e7dd;
+        }
+
+        * {
+            font-family: 'Khmer OS Battambang', sans-serif !important;
+        }
+
+        body {
+            font-family: 'Khmer OS Battambang', sans-serif !important;
+            background-color: var(--bs-body-bg);
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        #sidebar {
+            width: 250px;
+            min-width: 250px;
+            background-color: #2C0157;
+            color: white;
+            padding: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1030;
+        }
+
+        .sidebar-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 15px;
+            background-color: #2C0157;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        #sidebar-logo {
+            width: 80px;
+            height: 80px;
+            margin-right: 0;
+            margin-bottom: 10px;
+            object-fit: cover;
+            background-color: white;
+            padding: 3px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        #sidebar .nav {
+            padding-top: 10px;
+        }
+
+        #sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border-left: 5px solid transparent;
+            font-size: 1rem;
+            /* Standardized font size */
+        }
+
+        #sidebar .nav-link i {
+            margin-right: 10px;
+        }
+
+        #sidebar .nav-link:hover {
+            background-color: var(--bs-pink-hover);
+            color: white;
+            border-left-color: var(--bs-pink-primary);
+        }
+
+        #sidebar .nav-link.active {
+            background-color: var(--bs-pink-primary);
+            color: white;
+            font-weight: bold;
+            border-left-color: white;
+        }
+
+        #main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: var(--bs-body-bg);
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+
+        /* Header with notifications and download buttons */
+        /* Header with notifications and download buttons */
+        /* Header with notifications and download buttons */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            /* Changed from sticky to relative */
+            border: 1px solid rgba(255, 105, 180, 0.1);
+        }
+
+        .header-title {
+            color: var(--bs-pink-dark);
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .btn-back-home {
+            background: #2C0157;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-back-home:hover {
+            transform: translateX(-5px);
+            color: white;
+            box-shadow: 0 6px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .header-right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 8px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .notifications-container {
+            position: relative;
+        }
+
+        .downloads-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .download-header-btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-header-btn.excel {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .download-header-btn.report {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .download-header-btn.warning {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .download-header-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            color: white;
+            opacity: 0.9;
+        }
+
+        .notifications-btn {
+            background: #2C0157;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .notifications-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .notifications-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #DC3545;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Micro-animations */
+        @keyframes pulse-custom {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 105, 180, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
+            }
+        }
+
+        .notifications-btn i {
+            animation: ring 4s .7s ease-in-out infinite;
+            transform-origin: 50% 4px;
+        }
+
+        @keyframes ring {
+            0% {
+                transform: rotate(0);
+            }
+
+            1% {
+                transform: rotate(30deg);
+            }
+
+            3% {
+                transform: rotate(-28deg);
+            }
+
+            5% {
+                transform: rotate(34deg);
+            }
+
+            7% {
+                transform: rotate(-32deg);
+            }
+
+            9% {
+                transform: rotate(30deg);
+            }
+
+            11% {
+                transform: rotate(-28deg);
+            }
+
+            13% {
+                transform: rotate(26deg);
+            }
+
+            15% {
+                transform: rotate(-24deg);
+            }
+
+            17% {
+                transform: rotate(22deg);
+            }
+
+            19% {
+                transform: rotate(-20deg);
+            }
+
+            21% {
+                transform: rotate(18deg);
+            }
+
+            23% {
+                transform: rotate(-16deg);
+            }
+
+            25% {
+                transform: rotate(14deg);
+            }
+
+            27% {
+                transform: rotate(-12deg);
+            }
+
+            29% {
+                transform: rotate(10deg);
+            }
+
+            31% {
+                transform: rotate(-8deg);
+            }
+
+            33% {
+                transform: rotate(6deg);
+            }
+
+            35% {
+                transform: rotate(-4deg);
+            }
+
+            37% {
+                transform: rotate(2deg);
+            }
+
+            39% {
+                transform: rotate(-1deg);
+            }
+
+            41% {
+                transform: rotate(1deg);
+            }
+
+            43% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+
+
+
+        .download-header-btn.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .download-header-btn.success:hover {
+            background: linear-gradient(135deg, #218838 0%, #28a745 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .download-header-btn.primary {
+            background: linear-gradient(135deg, #007bff 0%, #17a2b8 100%);
+        }
+
+        .download-header-btn.primary:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Alert notification panel */
+        .alert-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            padding: 0;
+            z-index: 1070;
+            display: none;
+            max-height: 80vh;
+            overflow: hidden;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+        }
+
+        .alert-panel.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bs-pink-primary);
+        }
+
+        .alert-category {
+            margin-bottom: 20px;
+        }
+
+        .alert-category-title {
+            font-weight: bold;
+            color: var(--bs-pink-dark);
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 4px solid var(--bs-pink-primary);
+        }
+
+        .alert-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: var(--bs-orange-alert);
+            border-left: 4px solid #ffc107;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .alert-item:hover {
+            transform: translateX(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-item.overdue {
+            background: var(--bs-red-alert);
+            border-left-color: #dc3545;
+        }
+
+        .alert-item.warning {
+            background: var(--bs-orange-alert);
+            border-left-color: #fd7e14;
+        }
+
+        /* Search and Filter Section */
+        .search-filter-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 105, 180, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-filter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #0d6efd, #0a58ca);
+        }
+
+        .filter-label {
+            font-weight: 700;
+            color: #c71585;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover {
+            transform: translateY(-2px);
+        }
+
+        .search-box .form-control {
+            padding-left: 45px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            height: 48px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box .form-control:focus {
+            border-color: var(--bs-pink-primary);
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.25);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--bs-pink-primary);
+            z-index: 10;
+            font-size: 1.1rem;
+        }
+
+        .filter-group .form-select,
+        .filter-group .form-control {
+            border-radius: 12px;
+            height: 45px;
+            border: 1.5px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group .form-select:focus,
+        .filter-group .form-control:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-clear:hover {
+            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(73, 80, 87, 0.3);
+        }
+
+        /* Date Range */
+        .date-range-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .date-range-container .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .date-range-container .form-control {
+            width: 100%;
+            height: 48px;
+        }
+
+        /* Data Table Card */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header-pink {
+            background-color: var(--bs-pink-primary);
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            padding: 20px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 11;
+        }
+
+        .table {
+            width: 100% !important;
+            margin-bottom: 0;
+            border-collapse: collapse !important;
+        }
+
+        /* Hide DataTable Order Icons */
+        .dt-column-order,
+        .dt-ordering-asc .dt-column-order,
+        .dt-ordering-desc .dt-column-order {
+            display: none !important;
+        }
+
+        .table thead th {
+            background: #2C0157 !important;
+            color: white !important;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            vertical-align: middle;
+            padding: 12px 8px !important;
+            text-align: center !important;
+            font-size: 0.85rem !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .table tbody tr {
+            background-color: white;
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .table tbody td {
+            vertical-align: middle !important;
+            padding: 10px 8px !important;
+            text-align: center !important;
+            font-size: 0.9rem;
+            border: 1px solid #dee2e6 !important;
+        }
+
+        /* Hide DataTable Search specifically */
+        .dt-search {
+            display: none !important;
+        }
+
+        .student-name-cell {
+            cursor: pointer;
+            color: var(--bs-pink-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-align: center !important;
+        }
+
+        .student-name-cell:hover {
+            color: var(--bs-pink-primary);
+            text-decoration: underline;
+        }
+
+        /* Payment status badges */
+        .payment-status-badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+
+        .status-installment {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .status-pending {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .status-warning {
+            background-color: #fd7e14;
+            color: #fff;
+        }
+
+        .status-paid {
+            background-color: #198754;
+            color: #fff;
+        }
+
+        /* Due date styling */
+        .due-date-cell {
+            font-weight: 600;
+            min-width: 150px;
+        }
+
+        .due-soon {
+            color: #fd7e14;
+            font-weight: bold;
+        }
+
+        .overdue {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .normal-due {
+            color: #6c757d;
+        }
+
+        /* Action buttons */
+        .action-buttons-table {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        /* Custom Loader */
+        .loader {
+            width: 96px;
+            box-sizing: content-box;
+            height: 48px;
+            background: #FFF;
+            border-color: #de3500;
+            border-style: solid;
+            border-width: 2px 2px 50px 2px;
+            border-radius: 100%;
+            position: relative;
+            animation: 3s yinYang linear infinite;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            background: #FFF;
+            border: 18px solid #de3500;
+            border-radius: 100%;
+            width: 12px;
+            height: 12px;
+            box-sizing: content-box;
+        }
+
+        .loader:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: #de3500;
+            border: 18px solid #FFF;
+            border-radius: 100%;
+            width: 12px;
+            height: 12px;
+            box-sizing: content-box;
+        }
+
+        @keyframes yinYang {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .action-buttons-table .btn-sm {
+            padding: 0.35rem 0.6rem;
+            font-size: 0.9rem;
+            min-width: 36px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-buttons-table .btn-sm i {
+            font-size: 1.1rem;
+        }
+
+        .action-buttons-table .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fix Modal Z-Index to be above everything */
+        .modal-backdrop {
+            z-index: 10000 !important;
+        }
+
+        .modal {
+            z-index: 10001 !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            #sidebar.show {
+                transform: translateX(0);
+            }
+
+            .alert-panel {
+                width: 90%;
+                right: 5%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .header-title {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .header-right-section {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .date-range-container {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                justify-content: center;
+            }
+
+            .card-header-pink {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .alert-panel {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                max-height: 100vh;
+            }
+
+            .downloads-container {
+                justify-content: center;
+            }
+
+            .download-header-btn {
+                min-width: 110px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-right-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .downloads-container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .download-header-btn {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .notifications-btn {
+                width: 100%;
+            }
+        }
+
+        /* Show DataTables default filter (optional, enabled for convenience) */
+        /* .dataTables_wrapper .dataTables_filter {
+            display: none !important;
+        } */
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* Modal improvements */
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background-color: var(--bs-pink-primary);
+            color: white;
+            border-bottom: none;
+            padding: 20px;
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Alert Container */
+        #alertContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            min-width: 300px;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /* Premium Student Details View Styles */
+        .student-details-view {
+            color: #2c3e50;
+        }
+
+        .student-details-header {
+            background: linear-gradient(135deg, #2C0157 0%, #4a028f 100%);
+            margin: -25px -25px 30px -25px;
+            padding: 40px 30px;
+            color: white;
+            border-bottom: 5px solid #ffc107;
+        }
+
+        .detail-photo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .detail-photo-container img,
+        .detail-photo-container .no-photo {
+            width: 140px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .premium-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .premium-card-header {
+            padding: 18px 25px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .header-blue {
+            background: #e7f1ff;
+            color: #0d6efd;
+        }
+
+        .header-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .header-orange {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .header-purple {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .premium-card-body {
+            padding: 25px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #6c757d;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .financial-receipt {
+            background: #ffffff;
+            border: 2px solid #f1f3f5;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .financial-receipt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+
+        .receipt-footer {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .total-badge {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .remaining-glow {
+            font-size: 2rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(220, 53, 69, 0.2);
+        }
+
+        .action-button {
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* DataTables Pagination Styling */
+        .dataTables_wrapper .dataTables_paginate {
+            padding-top: 0.5em;
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.3em 0.8em;
+            margin-left: 2px;
+            border-radius: 8px !important;
+            border: 1px solid transparent !important;
+            background: white !important;
+            color: #c71585 !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #e7f1ff !important;
+            color: #0d6efd !important;
+            border-color: #0b5ed7 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+            color: white !important;
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+            cursor: default;
+            color: #ccc !important;
+            border: 1px solid transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        .dataTables_info {
+            color: #6c757d !important;
+            font-weight: 500;
+        }
+
+        .dataTables_length select {
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            padding: 4px 8px;
+            color: #495057;
+            outline: none;
+        }
+
+        div.dataTables_wrapper div.dataTables_length label {
+            font-weight: normal;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        /* Custom Edit Modal Tabs */
+        .modal-nav-tabs {
+            gap: 20px;
+            border: none;
+        }
+
+        .modal-nav-tabs .nav-link {
+            color: #6c757d;
+            font-weight: 600;
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            background: transparent !important;
+            transition: all 0.3s ease;
+        }
+
+        .modal-nav-tabs .nav-link.active {
+            color: #2C0157 !important;
+            border-bottom-color: #2C0157;
+        }
+
+        .modal-nav-tabs .nav-link:hover:not(.active) {
+            color: #2C0157;
+            background: rgba(44, 1, 87, 0.05) !important;
+        }
+
+        .shadow-top {
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .premium-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .premium-card-header {
+            padding: 12px 20px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-blue {
+            background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+        }
+
+        .header-green {
+            background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+        }
+
+        .header-purple {
+            background: linear-gradient(135deg, #6f42c1 0%, #4a148c 100%);
+        }
+
+        .header-orange {
+            background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+        }
+
+        .premium-card-body {
+            padding: 20px;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
+        .scale-up:hover {
+            transform: scale(1.02);
+        }
+
+        .w-40 {
+            width: 40%;
+        }
+
+        .btn-check:checked+.btn-outline-secondary {
+            background-color: #f8f9fa;
+            border-color: #2C0157;
+            color: #2C0157;
+            box-shadow: 0 0 0 0.25rem rgba(44, 1, 87, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <span class="loader"></span>
+        <h5 class="mt-4 text-pink-dark">កំពុងដំណើរការ...</h5>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <img src="img/logo.jpg" alt="School Logo" id="sidebar-logo">
+            </a>
+            <span class="sidebar-title-text">
+                <i class="fi fi-rr-graduation-cap"></i> ប្រព័ន្ធគ្រប់គ្រង
+            </span>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index.html">
+                <i class="fi fi-rr-home"></i> ផ្ទាំងគ្រប់គ្រង
+            </a>
+
+            <a class="nav-link" href="registration.html">
+                <i class="fi fi-rr-user-add"></i> ការចុះឈ្មោះសិស្ស
+            </a>
+
+            <a class="nav-link active" href="data-tracking.html">
+                <i class="fi fi-rr-document"></i> បញ្ជីទិន្នន័យសិស្ស
+            </a>
+
+            <a class="nav-link" href="dropout-students.html">
+                <i class="fi fi-rr-user-xmark"></i> សិស្សបោះបង់ការសិក្សា
+            </a>
+
+            <a class="nav-link" href="income-expense.html">
+                <i class="fi fi-rr-dollar"></i> ចំណូលចំណាយ
+            </a>
+
+            <a class="nav-link" href="settings.html">
+                <i class="fi fi-rr-settings"></i> ការកំណត់ (Setting)
+            </a>
+
+            <a class="nav-link" href="user-management.html" id="navUserManagement">
+                <i class="fi fi-rr-shield-check"></i> គ្រប់គ្រងអ្នកប្រើប្រាស់
+            </a>
+
+            <hr class="sidebar-divider my-2 mx-3" style="border-top: 1px solid rgba(255,255,255,0.3);">
+
+            <!-- User Profile Section -->
+            <div class="px-3 py-2 text-white">
+                <div class="d-flex flex-column align-items-center mb-2">
+                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-2 shadow-sm"
+                        style="width: 50px; height: 50px;">
+                        <i class="fi fi-rr-user text-primary" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="font-size: 0.9rem; width: 100%; text-align: center;">
+                        <div class="fw-bold text-truncate" id="user-display-email">...</div>
+                        <div class="badge bg-light text-primary mt-1" id="user-role-badge" style="font-weight: normal;">
+                            ...</div>
+                        <div class="small text-white-50 mt-1 text-truncate" id="user-display-gmail"
+                            style="font-size: 0.8rem;">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="nav-link text-warning mt-1" href="#" id="logout-link" onclick="handleLogout(event)">
+                <i class="fi fi-rr-exit"></i> ចាកចេញ
+            </a>
+        </nav>
+        <!-- Global Settings -->
+        <script src="global-settings.js"></script>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Header with Notifications and Download buttons -->
+        <div class="main-header">
+            <div class="header-title">
+                <a href="index.html" class="btn-back-home">
+                    <i class="fi fi-rr-arrow-left"></i> ចាក់ចេញ
+                </a>
+                <i class="fi fi-rr-users"></i> <span class="ms-1">បញ្ជីឈ្មោះសិស្សទាំងអស់</span>
+            </div>
+
+            <div class="header-right-section">
+                <!-- Download buttons -->
+                <div class="downloads-container">
+                    <button class="btn download-header-btn excel" id="exportExcelBtn">
+                        <i class="fi fi-rr-file-excel"></i> ទាញយកជាExcelសិស្សសរុបទាំងអស់
+                    </button>
+
+
+
+                    <button class="btn download-header-btn report" onclick="openReportCenterModal()">
+                        <i class="fi fi-rr-print"></i> មជ្ឈមណ្ឌលរបាយការណ៍ (Reports)
+                    </button>
+
+                    <button class="btn download-header-btn warning" onclick="generateDetailedAlertReport()">
+                        <i class="fi fi-rr-exclamation"></i> <span class="ms-1">របាយការណ៍សិស្សហួសកំណត់</span>
+                    </button>
+
+
+                </div>
+
+                <!-- Notifications -->
+                <div class="notifications-container">
+                    <button class="btn notifications-btn" id="notificationsBtn">
+                        <i class="fi fi-rr-bell"></i> ការជូនដំណឹង
+                        <span class="notifications-badge" id="notificationCount">0</span>
+                    </button>
+                    <div class="alert-panel" id="alertPanel">
+                        <div class="alert-panel-header">
+                            <h6 class="mb-0"><i class="fi fi-rr-exclamation text-warning"></i> ការជូនដំណឹង</h6>
+                            <button class="btn btn-sm btn-outline-secondary" id="markAllReadBtn">
+                                <i class="fi fi-rr-check-double"></i> សម្អាតទាំងអស់
+                            </button>
+                        </div>
+                        <div id="alertList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <!-- Search and Filter Section -->
+        <div class="search-filter-section shadow-sm animate__animated animate__fadeInDown">
+            <div class="row g-3">
+                <!-- Search by Name -->
+                <div class="col-md-4">
+                    <label class="filter-label"><i class="fi fi-rr-search me-2 text-pink"></i>ស្វែងរកតាមឈ្មោះ</label>
+                    <div class="search-box">
+                        <i class="fi fi-rr-user"></i>
+                        <input type="text" class="form-control" id="searchName"
+                            placeholder="បញ្ចូលឈ្មោះសិស្សដើម្បីស្វែងរក...">
+                    </div>
+                </div>
+
+                <!-- Filter by Time -->
+                <div class="col-md-2">
+                    <label class="filter-label"><i class="fi fi-rr-clock me-2 text-primary"></i>តាមម៉ោងសិក្សា</label>
+                    <select class="form-select border-primary-subtle" id="filterTime">
+                        <option value="all">🔍 ទាំងអស់ (ម៉ោង)</option>
+                        <option value="8:00-10:30ថ្ងៃ">8:00-10:30ថ្ងៃ</option>
+                        <option value="1:00-3:30ល្ងាច">1:00-3:30ល្ងាច</option>
+                        <option value="1:00-2:00ល្ងាច">1:00-2:00ល្ងាច</option>
+                        <option value="2:00pm-3:00pm">2:00pm-3:00pm</option>
+                        <option value="3:00pm-4:00pm">3:00pm-4:00pm</option>
+                        <option value="5:00pm-6:00pm">5:00pm-6:00pm</option>
+                        <option value="6:00pm-7:00pm">6:00pm-7:00pm</option>
+                        <option value="7:00pm-8:00pm">7:00pm-8:00pm</option>
+                    </select>
+
+                </div>
+
+                <!-- Filter by Level -->
+                <div class="col-md-2">
+                    <label class="filter-label"><i
+                            class="fi fi-rr-graduation-cap me-2 text-success"></i>តាមកម្រិតសិក្សា</label>
+                    <select class="form-select border-success-subtle" id="filterLevel">
+                        <option value="all">🎓 ទាំងអស់ (កម្រិត)</option>
+                        <option value="មូលដ្ឋានគ្រឹះ">មូលដ្ឋានគ្រឹះ</option>
+                        <option value="កម្រិត១">កម្រិត១ (Year 1)</option>
+                        <option value="កម្រិត២">កម្រិត២ (Year 2)</option>
+                        <option value="កម្រិត៣">កម្រិត៣ (Year 3)</option>
+                        <option value="កម្រិត៤">កម្រិត៤ (Year 4)</option>
+                        <option value="កម្រិត៥">កម្រិត៥ (Year 5)</option>
+                        <option value="កម្រិត៦">កម្រិត៦ (Year 6)</option>
+                    </select>
+                </div>
+
+                <!-- Filter by Status -->
+                <div class="col-md-2">
+                    <label class="filter-label"><i
+                            class="fi fi-rr-hand-holding-usd me-2 text-warning"></i>ស្ថានភាពបង់ប្រាក់</label>
+                    <select class="form-select border-warning-subtle" id="filterStatus">
+                        <option value="all">💵 ទាំងអស់ (ស្ថានភាព)</option>
+                        <option value="paid">✅ បង់រួច</option>
+                        <option value="overdue">❌ ហួសកំណត់</option>
+                        <option value="warning">⏳ ជិតដល់កំណត់</option>
+                        <option value="installment">🏦 នៅជំណាក់</option>
+                        <option value="pending">⚠️ មិនទាន់បង់</option>
+                    </select>
+                </div>
+
+                <!-- Filter by Gender -->
+                <div class="col-md-2">
+                    <label class="filter-label"><i class="fi fi-rr-intersex me-2 text-info"></i>តាមភេទ</label>
+                    <select class="form-select border-info-subtle" id="filterGender">
+                        <option value="all">🚻 ទាំងអស់ (ភេទ)</option>
+                        <option value="Male">👨‍🎓 ប្រុស</option>
+                        <option value="Female">👩‍🎓 ស្រី</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Date Range and Clear Filter -->
+            <div class="row g-3 mt-2 align-items-end">
+                <div class="col-md-8">
+                    <label class="filter-label"><i
+                            class="fi fi-rr-calendar-day me-2 text-danger"></i>ចន្លោះកាលបរិច្ឆេទចុះឈ្មោះ</label>
+                    <div class="d-flex gap-2">
+                        <input type="date" class="form-control" id="startDateFilter">
+                        <div class="align-self-center">ដល់</div>
+                        <input type="date" class="form-control" id="endDateFilter">
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-clear shadow-sm w-100 justify-content-center" id="clearFiltersBtn">
+                        <i class="fi fi-rr-refresh me-1"></i> សម្អាតតម្រងស្វែងរកទាំងអស់
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Card -->
+        <div class="card shadow-lg">
+            <div class="card-header card-header-pink">
+                <div class="card-header-title">
+                    <span><i class="fi fi-rr-table-list me-2"></i>បញ្ជីសិស្សទាំងអស់</span>
+                </div>
+                <div class="text-white">
+                    <i class="fi fi-rr-mouse me-1"></i>ចុចលើឈ្មោះសិស្សដើម្បីមើលព័ត៌មានលម្អិត
+                </div>
+            </div>
+
+            <div class="card-body p-3">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover" id="studentTable">
+                        <thead>
+                            <tr>
+                                <th width="3%"><i class="fi fi-rr-hashtag"></i></th>
+                                <th width="6%"><i class="fi fi-rr-id-badge me-1"></i>អត្តលេខ</th>
+                                <th width="9%"><i class="fi fi-rr-user me-1"></i>ឈ្មោះខ្មែរ</th>
+                                <th width="4%"><i class="fi fi-rr-intersex me-1"></i>ភេទ</th>
+                                <th width="4%"><i class="fi fi-rr-layers me-1"></i>ជំនាន់</th>
+                                <th width="6%"><i class="fi fi-rr-book me-1"></i>មុខវិជ្ជា</th>
+                                <th width="6%"><i class="fi fi-rr-clock me-1"></i>ម៉ោងសិក្សា</th>
+                                <th width="6%"><i class="fi fi-rr-graduation-cap me-1"></i>កម្រិត</th>
+                                <th width="7%"><i class="fi fi-rr-chalkboard-user me-1"></i>គ្រូ</th>
+                                <th width="6%"><i class="fi fi-rr-calendar-plus me-1"></i>ចុះឈ្មោះ</th>
+                                <th width="7%"><i class="fi fi-rr-calendar-exclamation me-1"></i>ផុតកំណត់</th>
+                                <th width="3%"><i class="fi fi-rr-calendar-check me-1"></i>ខែ</th>
+                                <th width="6%"><i class="fi fi-rr-money-bill-wave me-1"></i>សរុប ($)</th>
+                                <th width="6%"><i class="fi fi-rr-hand-holding-usd me-1"></i>បង់មុន ($)</th>
+                                <th width="6%"><i class="fi fi-rr-balance-scale-left me-1"></i>ខ្វះ ($)</th>
+                                <th width="7%"><i class="fi fi-rr-info me-1"></i>ស្ថានភាព</th>
+                                <th width="4%"><i class="fi fi-rr-settings-sliders me-1"></i>សកម្មភាព</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentDataBody">
+                            <!-- Data will be loaded by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer mt-3 d-flex justify-content-between align-items-center">
+                    <div class="table-info text-muted">
+                        បង្ហាញ <span id="displayCount">0</span> នាក់ ក្នុង <span id="totalDisplayCount">0</span>
+                        នាក់ <i class="fi fi-rr-users-alt ms-1"></i>
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-sm btn-outline-primary" onclick="checkAllPayments()">
+                            <i class="fi fi-rr-refresh"></i> ពិនិត្យការបង់ប្រាក់ទាំងអស់
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><i class="fi fi-rr-copyright me-1"></i> 2026 គ្រប់គ្រងសាលា. Developed by មាស មករា.</p>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-pink-primary text-white">
+                    <h5 class="modal-title" id="studentDetailsModalLabel">
+                        <i class="fi fi-rr-info"></i> ព័ត៌មានលម្អិតរបស់សិស្ស
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodyContent">
+                    <div class="text-center py-5">
+                        <p class="text-muted mt-4">កំពុងរៀបចំទិន្នន័យ...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fi fi-rr-cross"></i> បិទ
+                    </button>
+                    <button type="button" class="btn btn-primary bg-pink-primary border-pink-primary"
+                        onclick="window.print()">
+                        <i class="fi fi-rr-print"></i> បោះពុម្ព
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeClassModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-primary text-white border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i
+                            class="fi fi-rr-exchange me-2 animate__animated animate__rotateIn"></i>ប្តូរថ្នាក់សិក្សា
+                        (Change Class)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light bg-opacity-50">
+                    <form id="changeClassForm">
+                        <input type="hidden" id="cc_studentKey">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold small text-muted"><i
+                                        class="fi fi-rr-layers me-1 text-primary"></i>កម្រិតសិក្សា (Level)</label>
+                                <select class="form-select shadow-sm" id="cc_studyLevel" required>
+                                    <option value="">-- ជ្រើសរើសកម្រិត --</option>
+                                    <option value="មូលដ្ឋានគ្រឹះ">មូលដ្ឋានគ្រឹះ</option>
+                                    <option value="កម្រិត១">កម្រិត១ (Year 1)</option>
+                                    <option value="កម្រិត២">កម្រិត២ (Year 2)</option>
+                                    <option value="កម្រិត៣">កម្រិត៣ (Year 3)</option>
+                                    <option value="កម្រិត៤">កម្រិត៤ (Year 4)</option>
+                                    <option value="កម្រិត៥">កម្រិត៥ (Year 5)</option>
+                                    <option value="កម្រិត៦">កម្រិត៦ (Year 6)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold small text-muted"><i
+                                        class="fi fi-rr-book me-1 text-success"></i>មុខវិជ្ជា (Subject)</label>
+                                <input type="text" class="form-control shadow-sm" id="cc_subject"
+                                    placeholder="ឧៈ ភាសាអង់គ្លេស" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold small text-muted"><i
+                                        class="fi fi-rr-clock me-1 text-warning"></i>ម៉ោងសិក្សា (Study Time)</label>
+                                <select class="form-select shadow-sm" id="cc_studyTime" required>
+                                    <option value="">-- ជ្រើសរើសម៉ោង --</option>
+                                    <option value="8:00-10:30ថ្ងៃ">8:00-10:30ថ្ងៃ</option>
+                                    <option value="1:00-3:30ល្ងាច">1:00-3:30ល្ងាច</option>
+                                    <option value="1:00-2:00ល្ងាច">1:00-2:00ល្ងាច</option>
+                                    <option value="2:00pm-3:00pm">2:00pm-3:00pm</option>
+                                    <option value="3:00pm-4:00pm">3:00pm-4:00pm</option>
+                                    <option value="5:00pm-6:00pm">5:00pm-6:00pm</option>
+                                    <option value="6:00pm-7:00pm">6:00pm-7:00pm</option>
+                                    <option value="7:00pm-8:00pm">7:00pm-8:00pm</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold small text-muted"><i
+                                        class="fi fi-rr-chalkboard-user me-1 text-info"></i>ឈ្មោះគ្រូបង្រៀន
+                                    (Teacher)</label>
+                                <input type="text" class="form-control shadow-sm" id="cc_teacherName"
+                                    placeholder="ឈ្មោះគ្រូ..." required>
+                            </div>
+                        </div>
+                        <div class="alert alert-info py-2 small mb-3">
+                            <i
+                                class="fi fi-rr-info me-2"></i>ការផ្លាស់ប្តូរថ្នាក់នឹងមិនប៉ះពាល់ដល់ប្រវត្តិការបង់ប្រាក់ឡើយ។
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold rounded-pill shadow"><i
+                                    class="fi fi-rr-disk me-2"></i>រក្សាទុកការប្តូរថ្នាក់</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Modal -->
+    <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-danger text-white border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i class="fi fi-rr-calendar-check me-2"></i>គ្រប់គ្រងអវត្តមានសិស្ស
+                        (Attendance)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light bg-opacity-50">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3"><i
+                                            class="fi fi-rr-plus-circle text-danger me-2"></i>កត់ត្រាអវត្តមានថ្មី</h6>
+                                    <form id="markAttendanceForm">
+                                        <input type="hidden" id="att_studentKey">
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold">កាលបរិច្ឆេទ</label>
+                                            <input type="date" class="form-control" id="att_date" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold">មូលហេតុ (Reason)</label>
+                                            <select class="form-select" id="att_reason">
+                                                <option value="ឈឺ">ឈឺ (Sick)</option>
+                                                <option value="ច្បាប់">សុំច្បាប់ (Permission)</option>
+                                                <option value="អត់ច្បាប់">អត់ច្បាប់ (No Info)</option>
+                                                <option value="ផ្សេងៗ">ផ្សេងៗ (Other)</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control form-control-sm" id="att_note"
+                                                placeholder="គំនួសសម្គាល់បន្ថែម...">
+                                        </div>
+                                        <button type="submit" class="btn btn-danger w-100 rounded-pill fw-bold">
+                                            <i class="fi fi-rr-check me-2"></i>កត់ត្រាអវត្តមាន
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card border-0 shadow-sm rounded-4 border-start border-4 border-danger">
+                                <div class="card-body text-center py-3">
+                                    <h2 class="text-danger fw-bold mb-0" id="att_totalAbsences">0</h2>
+                                    <p class="text-muted small fw-bold mb-0">អវត្តមានសរុប (Total Absences)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="fw-bold mb-3"><i class="fi fi-rr-time-past text-muted me-2"></i>ប្រវត្តិនៃការឈប់
+                            </h6>
+                            <div id="attendanceHistory" class="table-responsive bg-white rounded-3 shadow-sm"
+                                style="max-height: 350px;">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="sticky-top bg-white shadow-sm">
+                                        <tr>
+                                            <th>កាលបរិច្ឆេទ</th>
+                                            <th>មូលហេតុ</th>
+                                            <th class="text-end">សកម្មភាព</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendanceListBody">
+                                        <tr>
+                                            <td colspan="3" class="text-center py-3 text-muted">មិនទាន់មានទិន្នន័យ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scores Modal -->
+    <div class="modal fade" id="scoresModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-info text-dark border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i class="fi fi-rr-stats me-2"></i>បញ្ជីពិន្ទុសិស្ស (Student Scores)
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light bg-opacity-50">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3"><i
+                                            class="fi fi-rr-pen-clip text-info me-2"></i>បញ្ចូលពិន្ទុថ្មី</h6>
+                                    <form id="addScoreForm">
+                                        <input type="hidden" id="score_studentKey">
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold">ខែ (Month)</label>
+                                            <select class="form-select" id="score_month" required>
+                                                <option value="មករា">មករា</option>
+                                                <option value="កុម្ភៈ">កុម្ភៈ</option>
+                                                <option value="មីនា">មីនា</option>
+                                                <option value="មេសា">មេសា</option>
+                                                <option value="ឧសភា">ឧសភា</option>
+                                                <option value="មិថុនា">មិថុនា</option>
+                                                <option value="កក្កដា">កក្កដា</option>
+                                                <option value="សីហា">សីហា</option>
+                                                <option value="កញ្ញា">កញ្ញា</option>
+                                                <option value="តុលា">តុលា</option>
+                                                <option value="វិច្ឆិកា">វិច្ឆិកា</option>
+                                                <option value="ធ្នូ">ធ្នូ</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold">ពិន្ទុសរុប (%)</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" min="0" max="100" class="form-control"
+                                                    id="score_value" required placeholder="0.00">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold">កម្រិត (Rank/Grade)</label>
+                                            <input type="text" class="form-control" id="score_grade"
+                                                placeholder="ឧៈ A, B+...">
+                                        </div>
+                                        <button type="submit" class="btn btn-info w-100 rounded-pill fw-bold">
+                                            <i class="fi fi-rr-disk me-2"></i>រក្សាទុកពិន្ទុ
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="fw-bold mb-3"><i
+                                    class="fi fi-rr-chart-histogram text-muted me-2"></i>ប្រវត្តិលទ្ធផលសិក្សា</h6>
+                            <div id="scoresHistory" class="table-responsive bg-white rounded-3 shadow-sm"
+                                style="max-height: 350px;">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="sticky-top bg-white shadow-sm">
+                                        <tr>
+                                            <th>ខែ</th>
+                                            <th class="text-center">ពិន្ទុ</th>
+                                            <th class="text-center">កម្រិត</th>
+                                            <th class="text-end">សកម្មភាព</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="scoresListBody">
+                                        <tr>
+                                            <td colspan="4" class="text-center py-3 text-muted">មិនទាន់មានទិន្នន័យ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="additionalPaymentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-success text-white border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i class="fi fi-rr-money-bill-wave me-2"></i>បង់ថ្លៃផ្សេងៗ
+                        (Additional Payments)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light bg-opacity-50">
+                    <form id="additionalPaymentForm">
+                        <input type="hidden" id="ap_studentKey">
+                        <div class="card border-0 shadow-sm rounded-4 mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small text-muted"><i
+                                            class="fi fi-rr-comment-dollar me-1 text-success"></i>ប្រភេទការបង់ប្រាក់
+                                        (Payment Type)</label>
+                                    <select class="form-select shadow-sm" id="ap_type" required>
+                                        <option value="សម្ភារៈ">ថ្លៃសម្ភារៈ (Materials)</option>
+                                        <option value="ឯកសណ្ឋាន">ថ្លៃឯកសណ្ឋាន (Uniform)</option>
+                                        <option value="សៀវភៅ">ថ្លៃសៀវភៅ (Books)</option>
+                                        <option value="ពិន័យ">ថ្លៃពិន័យ (Other/Fees)</option>
+                                        <option value="ផ្សេងៗ">ផ្សេងៗ (Other)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small text-muted"><i
+                                            class="fi fi-rr-dollar me-1 text-success"></i>ចំនួនទឹកប្រាក់ ($)</label>
+                                    <input type="number" step="0.01" min="0"
+                                        class="form-control shadow-sm fw-bold h4 m-0" id="ap_amount" placeholder="0.00"
+                                        required>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold small text-muted"><i
+                                            class="fi fi-rr-note-sticky me-1 text-success"></i>សម្គាល់បន្ថែម
+                                        (Note)</label>
+                                    <textarea class="form-control shadow-sm" id="ap_note" rows="2"
+                                        placeholder="សរសេរការកត់សម្គាល់..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid shadow-sm">
+                            <button type="submit" class="btn btn-success py-3 fw-bold rounded-pill"><i
+                                    class="fi fi-rr-check-circle me-2"></i>យល់ព្រមបង់ប្រាក់</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="monthlyPaymentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header bg-success text-white border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i class="fi fi-rr-calendar-check me-2"></i>បង់ថ្លៃសិក្សាបន្ត
+                        (Monthly
+                        Renewal)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light bg-opacity-50">
+                    <form id="monthlyPaymentForm">
+                        <input type="hidden" id="mp_studentKey">
+                        <div class="card border-0 shadow-sm rounded-4 mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small text-muted">ចំនួនខែដែលត្រូវបន្ត
+                                        (Duration)</label>
+                                    <select class="form-select shadow-sm fw-bold" id="mp_months" required>
+                                        <option value="1">1 ខែ</option>
+                                        <option value="3">3 ខែ</option>
+                                        <option value="6">6 ខែ</option>
+                                        <option value="12">12 ខែ</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small text-muted">ថ្លៃសិក្សាសរុប ($)</label>
+                                    <input type="number" step="0.01"
+                                        class="form-control shadow-sm fw-bold h4 m-0 text-success" id="mp_amount"
+                                        placeholder="0.00" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold small text-muted">ថ្ងៃបង់ប្រាក់ (Payment
+                                        Date)</label>
+                                    <input type="date" class="form-control shadow-sm" id="mp_date" required>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label fw-bold small text-muted">សម្គាល់ (Note)</label>
+                                    <textarea class="form-control shadow-sm" id="mp_note" rows="2"
+                                        placeholder="សរសេរការកត់សម្គាល់..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid shadow-sm">
+                            <button type="submit" class="btn btn-success py-3 fw-bold rounded-pill">
+                                <i class="fi fi-rr-check-circle me-2"></i>បង់ប្រាក់ និងបន្តថ្ងៃផុតកំណត់
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <!-- Report Center Modal -->
+    <div class="modal fade" id="reportCenterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-primary text-white border-0 rounded-top-4 p-4">
+                    <h5 class="modal-title fw-bold"><i class="fi fi-rr-print me-2"></i>មជ្ឈមណ្ឌលចេញរបាយការណ៍ (Report
+                        Center)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <!-- Navigation / Actions -->
+                    <div class="row g-4">
+                        <!-- 1. Monthly Report -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all rounded-4">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3 bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3">
+                                        <i class="fi fi-rr-calendar-check text-primary" style="font-size: 2em;"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-3">របាយការណ៍ប្រចាំខែ (Monthly)</h6>
+                                    <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden">
+                                        <span class="input-group-text border-0 bg-white"><i
+                                                class="fi fi-rr-calendar text-muted"></i></span>
+                                        <input type="month" class="form-control border-0 text-center"
+                                            id="reportMonthSelect">
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-primary w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('monthly', 'preview')">
+                                            <i class="fi fi-rr-eye me-2"></i>មើល
+                                        </button>
+                                        <button class="btn btn-primary w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('monthly', 'download')">
+                                            <i class="fi fi-rr-file-pdf me-2"></i>ទាញយក
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Subject Report -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all rounded-4">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3 bg-success bg-opacity-10 rounded-circle d-inline-flex p-3">
+                                        <i class="fi fi-rr-book-alt text-success" style="font-size: 2em;"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-3">របាយការណ៍តាមមុខវិជ្ជា (Subject)</h6>
+                                    <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden">
+                                        <span class="input-group-text border-0 bg-white"><i
+                                                class="fi fi-rr-graduation-cap text-muted"></i></span>
+                                        <select class="form-select border-0 text-center" id="reportSubjectSelect">
+                                            <option value="all">មុខវិជ្ជាទាំងអស់ (All Subjects)</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-success w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('subject', 'preview')">
+                                            <i class="fi fi-rr-eye me-2"></i>មើល
+                                        </button>
+                                        <button class="btn btn-success w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('subject', 'download')">
+                                            <i class="fi fi-rr-file-pdf me-2"></i>ទាញយក
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Level Report -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all rounded-4">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3 bg-info bg-opacity-10 rounded-circle d-inline-flex p-3">
+                                        <i class="fi fi-rr-layers text-info" style="font-size: 2em;"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-3">របាយការណ៍តាមកម្រិត (Level)</h6>
+                                    <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden">
+                                        <span class="input-group-text border-0 bg-white"><i
+                                                class="fi fi-rr-signal-alt-2 text-muted"></i></span>
+                                        <select class="form-select border-0 text-center" id="reportLevelSelect">
+                                            <option value="all">កម្រិតទាំងអស់ (All Levels)</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-info w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('level', 'preview')">
+                                            <i class="fi fi-rr-eye me-2"></i>មើល
+                                        </button>
+                                        <button class="btn btn-info text-white w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('level', 'download')">
+                                            <i class="fi fi-rr-file-pdf me-2"></i>ទាញយក
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Upcoming Due Report -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all rounded-4">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3 bg-warning bg-opacity-10 rounded-circle d-inline-flex p-3">
+                                        <i class="fi fi-rr-user-time text-warning" style="font-size: 2em;"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-3">របាយការណ៍ជិតដល់ថ្ងៃបង់ (Upcoming)</h6>
+                                    <p class="small text-muted mb-3"><i
+                                            class="fi fi-rr-info me-1"></i>សិស្សត្រូវបង់ក្នុង ១០ ថ្ងៃខាងមុខ</p>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-warning w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('upcoming', 'preview')">
+                                            <i class="fi fi-rr-eye me-2"></i>មើល
+                                        </button>
+                                        <button class="btn btn-warning text-white w-50 rounded-pill fw-bold"
+                                            onclick="generatePDFReport('upcoming', 'download')">
+                                            <i class="fi fi-rr-file-pdf me-2"></i>ទាញយក
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0 bg-light rounded-bottom-4 justify-content-center pb-4">
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold" data-bs-dismiss="modal">
+                        <i class="fi fi-rr-cross me-2"></i>បិទ (Close)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth-check.js"></script>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Local Script -->
+    <script src="khmer-font.js"></script>
+    <script src="school-logo.js"></script>
+    <script src="data-tracking-script.js"></script>
+
+</body>
+
+</html>
