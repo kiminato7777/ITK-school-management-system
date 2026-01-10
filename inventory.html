@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>សាលា អន្តរជាតិ អាយធីឃេ</title>
+    <link rel="icon" type="image/jpeg" href="img/1.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Khmer OS Battambang Font -->
+    <style>
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/Khmer OS Battambang.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Khmer OS Battambang', sans-serif !important;
+        }
+    </style>
+    <style>
+        .card-header-inventory {
+            background-color: #2C0157;
+            color: white;
+            border-bottom: 1px solid #2C0157;
+        }
+
+        .text-blue-primary {
+            color: #2C0157;
+        }
+
+        .inventory-stat-card {
+            border-left: 5px solid #2C0157;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+
+        #editInventoryModal .modal-dialog,
+        #addInventoryModal .modal-dialog,
+        #sellItemModal .modal-dialog {
+            max-width: 800px;
+        }
+
+        .sales-table thead th {
+            background-color: #f7f7f7;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <img src="img/logo.jpg" alt="School Logo" id="sidebar-logo">
+            </a>
+            <span class="sidebar-title-text">
+
+                <i class="fas fa-graduation-cap"></i> ប្រព័ន្ធគ្រប់គ្រង
+            </span>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-tachometer-alt"></i> ផ្ទាំងគ្រប់គ្រង
+            </a>
+
+            <a class="nav-link" href="registration.html">
+                <i class="fas fa-user-plus"></i> ការចុះឈ្មោះសិស្ស
+            </a>
+
+            <a class="nav-link" href="data-tracking.html">
+                <i class="fas fa-users-cog"></i> បញ្ជីទិន្នន័យសិស្ស
+            </a>
+
+            <a class="nav-link" href="dropout-students.html">
+                <i class="fas fa-user-slash"></i> សិស្សបោះបង់ការសិក្សា
+            </a>
+
+            <a class="nav-link" href="income-expense.html">
+                <i class="fas fa-file-invoice-dollar"></i> ចំណូលចំណាយ
+            </a>
+
+            <a class="nav-link" href="#">
+                <i class="fas fa-cogs"></i> ការកំណត់ (Setting)
+            </a>
+
+            <a class="nav-link" href="user-management.html" id="navUserManagement">
+                <i class="fas fa-users-shield"></i> គ្រប់គ្រងអ្នកប្រើប្រាស់
+            </a>
+
+            <hr class="sidebar-divider my-2 mx-3" style="border-top: 1px solid rgba(255,255,255,0.3);">
+
+            <!-- User Profile Section -->
+            <div class="px-3 py-2 text-white">
+                <div class="d-flex flex-column align-items-center mb-2">
+                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-2 shadow-sm"
+                        style="width: 50px; height: 50px;">
+                        <i class="fas fa-user-circle text-primary fa-2x"></i>
+                    </div>
+                    <div style="font-size: 0.9rem; width: 100%; text-align: center;">
+                        <div class="fw-bold text-truncate" id="user-display-email">...</div>
+                        <div class="badge bg-light text-primary mt-1" id="user-role-badge" style="font-weight: normal;">
+                            ...</div>
+                        <div class="small text-white-50 mt-1 text-truncate" id="user-display-gmail"
+                            style="font-size: 0.8rem;">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="nav-link text-warning mt-1" href="#" id="logout-link" onclick="handleLogout(event)">
+                <i class="fas fa-sign-out-alt"></i> ចាកចេញ
+            </a>
+        </nav>
+    </div>
+
+    <div id="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0 text-blue-primary"><i class="fas fa-warehouse"></i> គ្រប់គ្រងស្តុកសម្ភារៈ</h1>
+
+            <div class="d-flex align-items-center bg-light p-2 rounded border">
+                <label for="currencySelector" class="me-2 small text-muted"><i class="fas fa-money-bill-wave"></i>
+                    រូបិយបណ្ណ:</label>
+                <select id="currencySelector" class="form-select form-select-sm me-3" style="width: 120px;">
+                    <option value="USD">USD ($)</option>
+                    <option value="KHR">KHR (៛)</option>
+                </select>
+
+                <label for="exchangeRate" class="me-2 small text-muted">អត្រាដូរ:</label>
+                <select id="exchangeRate" class="form-select form-select-sm" style="width: 80px;">
+                    <option value="4100">4100</option>
+                    <option value="4000">4000</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card p-3 inventory-stat-card">
+                    <h5 class="card-title text-muted small"><i class="fas fa-boxes"></i> ចំនួនរបស់សរុបក្នុងស្តុក</h5>
+                    <h2 class="display-5 text-blue-primary" id="totalItems">0</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 inventory-stat-card" style="border-left: 5px solid #28a745;">
+                    <h5 class="card-title text-muted small"><i class="fas fa-dollar-sign"></i> តម្លៃដើមសរុប (ស្តុក)</h5>
+                    <h2 class="display-5 text-success" id="totalCost">$0.00</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 inventory-stat-card" style="border-left: 5px solid #ffc107;">
+                    <h5 class="card-title text-muted small"><i class="fas fa-hand-holding-usd"></i> ចំណូលលក់សម្ភារៈសរុប
+                    </h5>
+                    <h2 class="display-5 text-warning" id="totalSalesRevenue">$0.00</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 inventory-stat-card" style="border-left: 5px solid #dc3545;">
+                    <h5 class="card-title text-muted small"><i class="fas fa-exclamation-triangle"></i> ទំនិញជិតអស់ (5
+                        ឯកតា)</h5>
+                    <h2 class="display-5 text-danger" id="lowStockCount">0</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <button class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#addInventoryModal"
+                style="background-color: #2C0157; border-color: #2C0157;"><i class="fas fa-plus-square"></i>
+                បញ្ចូលស្តុកថ្មី</button>
+            <div id="addInventoryAlert" class="mt-3"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0 text-blue-primary"><i class="fas fa-boxes"></i> ស្ថានភាពស្តុកបច្ចុប្បន្ន</h4>
+            <div class="input-group input-group-sm" style="width: 300px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control form-control-sm" id="inventorySearchInput"
+                    placeholder="ស្វែងរកតាមឈ្មោះសម្ភារៈ...">
+            </div>
+        </div>
+
+        <div class="card mb-5">
+            <div class="card-body p-3">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-sm">
+                        <thead class="bg-light">
+                            <tr>
+                                <th><i class="fas fa-hashtag me-1"></i>#</th>
+                                <th><i class="fas fa-tag me-1"></i>ឈ្មោះសម្ភារៈ</th>
+                                <th><i class="fas fa-cubes me-1"></i>ចំនួននៅសល់</th>
+                                <th class="text-end"><i class="fas fa-dollar-sign me-1"></i>តម្លៃដើមរាយ (<span
+                                        id="currentCurrency1">$</span>)</th>
+                                <th class="text-end"><i class="fas fa-shopping-cart me-1"></i>តម្លៃលក់រាយ (<span
+                                        id="currentCurrency2">$</span>)</th>
+                                <th class="text-end"><i class="fas fa-calculator me-1"></i>តម្លៃដើមសរុប (<span
+                                        id="currentCurrency3">$</span>)</th>
+                                <th><i class="fas fa-calendar-alt me-1"></i>ថ្ងៃនាំចូល</th>
+                                <th><i class="fas fa-tools me-1"></i>សកម្មភាព</th>
+                            </tr>
+                        </thead>
+                        <tbody id="currentStockTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center">កំពុងផ្ទុកទិន្នន័យ...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0 text-blue-primary"><i class="fas fa-chart-line"></i> តារាងរបាយការណ៍លក់</h4>
+            <div class="d-flex align-items-center">
+                <h6 class="mb-0 me-3 text-blue-primary small"><i class="fas fa-filter"></i> ច្រោះតាមថ្ងៃ៖</h6>
+                <div class="input-group input-group-sm me-1" style="width: 120px;">
+                    <input type="date" class="form-control form-control-sm" id="startDateFilter">
+                </div>
+                <div class="input-group input-group-sm me-1" style="width: 120px;">
+                    <input type="date" class="form-control form-control-sm" id="endDateFilter">
+                </div>
+                <button class="btn btn-info btn-sm me-2" id="filterSalesBtn" title="ច្រោះរបាយការណ៍លក់"><i
+                        class="fas fa-search"></i></button>
+
+                <span class="badge bg-secondary">លទ្ធផល: <span id="filteredSalesCount">0</span></span>
+            </div>
+        </div>
+
+        <div class="card shadow-lg">
+            <div class="card-body p-3">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-sm sales-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-calendar-alt me-1"></i>ថ្ងៃទីខែឆ្នាំនៃការលក់ចេញ</th>
+                                <th><i class="fas fa-tag me-1"></i>ឈ្មោះសម្ភារៈ</th>
+                                <th class="text-end"><i class="fas fa-sort-numeric-up me-1"></i>ចំនួនលក់</th>
+                                <th class="text-end"><i class="fas fa-dollar-sign me-1"></i>តម្លៃដើម (<span
+                                        id="currentCurrency4">$</span>)</th>
+                                <th class="text-end"><i class="fas fa-hand-holding-usd me-1"></i>តម្លៃលក់រាយ (<span
+                                        id="currentCurrency5">$</span>)</th>
+                                <th class="text-end"><i class="fas fa-calculator me-1"></i>តម្លៃសរុប (<span
+                                        id="currentCurrency6">$</span>)</th>
+                                <th><i class="fas fa-user me-1"></i>ឈ្មោះអ្នកលក់</th>
+                                <th><i class="fas fa-tools me-1"></i>សកម្មភាព</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesReportTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">
+                                    សូមជ្រើសរើសកាលបរិច្ឆេទដើម្បីមើលរបាយការណ៍លក់។</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="addInventoryModal" tabindex="-1" aria-labelledby="addInventoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header card-header-inventory">
+                    <h5 class="modal-title" id="addInventoryModalLabel"><i class="fas fa-plus-square"></i>
+                        បញ្ចូលសម្ភារៈចូលស្តុកថ្មី</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addInventoryForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="itemNameSelect" class="form-label small"><i
+                                        class="fas fa-tag me-1"></i>ឈ្មោះសម្ភារៈ *</label>
+                                <select class="form-select form-select-sm" id="itemNameSelect" required>
+                                    <option value="">-- ជ្រើសរើសឈ្មោះសម្ភារៈ --</option>
+                                    <option value="ប៊ិកខៀវ">ប៊ិកខៀវ</option>
+                                    <option value="ប៊ិកក្រហម">ប៊ិកក្រហម</option>
+                                    <option value="សៀវភៅ(200ទំព័រ)">សៀវភៅ(200ទំព័រ)</option>
+                                    <option value="សៀវភៅ(400ទំព័រ)">សៀវភៅ(400ទំព័រ)</option>
+                                    <option value="សៀវភៅ(250ទំព័រ)">សៀវភៅ(250ទំព័រ)</option>
+                                    <option value="ក្រដាសច្បាប់">ក្រដាសច្បាប់</option>
+                                    <option value="ក្រដាសចេញមុន">ក្រដាសចេញមុន</option>
+                                    <option value="ឯកសណ្ឋានគ្រូ">ឯកសណ្ឋានគ្រូ</option>
+                                    <option value="ឯកសណ្ឋានក្មេង">ឯកសណ្ឋានក្មេង</option>
+                                    <option value="ឯកសណ្ឋានសិស្ស">ឯកសណ្ឋានសិស្ស</option>
+                                    <option value="អាវយឺតក្មេង">អាវយឺតក្មេង</option>
+                                    <option value="អាវយឺត">អាវយឺត</option>
+                                    <option value="កាតសិស្ស">កាតសិស្ស</option>
+                                    <option value="សៀវភៅឈុត">សៀវភៅឈុត</option>
+                                    <option value="សៀវភៅឈុតក្មេង">សៀវភៅឈុតក្មេង</option>
+                                    <option value="ពាក្យចុះឈ្មោះ">ពាក្យចុះឈ្មោះ</option>
+                                    <option value="ក្រដាសប្តូរគ្រូ">ក្រដាសប្តូរគ្រូ</option>
+                                    <option value="ក្រដាសកិច្ចសន្យា">ក្រដាសកិច្ចសន្យា</option>
+                                    <option value="ក្រដាសធ្វើតេស្ត">ក្រដាសធ្វើតេស្ត</option>
+                                    <option value="ផ្សេងៗ">ផ្សេងៗ</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3" id="otherItemNameContainer" style="display: none;">
+                                <label for="otherItemNameInput" class="form-label small"><i
+                                        class="fas fa-tags me-1"></i>ឈ្មោះសម្ភារៈផ្សេងៗ *</label>
+                                <input type="text" class="form-control form-control-sm" id="otherItemNameInput"
+                                    placeholder="បញ្ចូលឈ្មោះសម្ភារៈថ្មី">
+                            </div>
+
+                            <div class="col-md-6 mb-3" id="supplierNameContainer">
+                                <label for="supplierName" class="form-label small"><i
+                                        class="fas fa-industry me-1"></i>ឈ្មោះអ្នកលក់/ក្រុមហ៊ុន</label>
+                                <input type="text" class="form-control form-control-sm" id="supplierName">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="importDate" class="form-label small"><i
+                                        class="fas fa-calendar-alt me-1"></i>ថ្ងៃនាំចូល *</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm date-input" id="importDate"
+                                        placeholder="ថ្ងៃ/ខែ/ឆ្នាំ" required>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="todayBtn"
+                                        title="ថ្ងៃនេះ">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">ទម្រង់: DD/MM/YYYY</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantity" class="form-label small"><i
+                                        class="fas fa-sort-numeric-up me-1"></i>ចំនួន (Quantity) *</label>
+                                <input type="number" class="form-control form-control-sm" id="quantity" min="1"
+                                    required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label small"><i class="fas fa-calculator me-1"></i>តម្លៃដើមសរុប
+                                    (Total Cost <span id="add-currency-symbol">$</span>)</label>
+                                <input type="text" class="form-control form-control-sm" id="totalCostDisplay" disabled
+                                    value="0.00">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="unitCost" class="form-label small"><i
+                                        class="fas fa-dollar-sign me-1"></i>តម្លៃដើមរាយ (Unit Cost <span
+                                        id="add-unit-currency-symbol">$</span>) *</label>
+                                <input type="number" class="form-control form-control-sm" id="unitCost" step="0.01"
+                                    required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sellingPrice" class="form-label small"><i
+                                        class="fas fa-hand-holding-usd me-1"></i>តម្លៃលក់រាយ (Selling Price <span
+                                        id="add-selling-currency-symbol">$</span>) *</label>
+                                <input type="number" class="form-control form-control-sm" id="sellingPrice" step="0.01"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="itemNotes" class="form-label small"><i
+                                    class="fas fa-sticky-note me-1"></i>ចំណាំ</label>
+                            <textarea class="form-control form-control-sm" id="itemNotes" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">បោះបង់</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #007bff; border-color: #007bff;"><i class="fas fa-save"></i>
+                            បញ្ចូលស្តុក</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="sellItemModal" tabindex="-1" aria-labelledby="sellItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="sellItemModalLabel"><i class="fas fa-shopping-cart"></i> លក់ចេញសម្ភារៈ
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-3">តើអ្នកចង់ធ្វើប្រតិបត្តិការលក់នេះជា:</p>
+                    <button class="btn btn-lg btn-outline-primary w-100 mb-2 sell-currency-btn" data-currency="USD">$
+                        ដុល្លារ</button>
+                    <button class="btn btn-lg btn-outline-success w-100 sell-currency-btn" data-currency="KHR">៛
+                        រៀល</button>
+                    <p class="mt-3 small text-muted">ការលក់ពិតប្រាកដត្រូវបានបិទសម្រាប់ពេលនេះ។</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editInventoryModal" tabindex="-1" aria-labelledby="editInventoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header card-header-inventory">
+                    <h5 class="modal-title" id="editInventoryModalLabel"><i class="fas fa-edit"></i>
+                        កែប្រែព័ត៌មានសម្ភារៈ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editInventoryForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit-inventory-id">
+
+                        <div class="mb-3">
+                            <label for="edit-itemName" class="form-label small"><i
+                                    class="fas fa-tag me-1"></i>ឈ្មោះសម្ភារៈ</label>
+                            <input type="text" class="form-control form-control-sm" id="edit-itemName" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="edit-quantity" class="form-label small"><i
+                                        class="fas fa-sort-numeric-up me-1"></i>ចំនួននៅសល់</label>
+                                <input type="number" class="form-control form-control-sm" id="edit-quantity" min="0"
+                                    required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="edit-unitCost" class="form-label small"><i
+                                        class="fas fa-dollar-sign me-1"></i>តម្លៃដើមរាយ ($)</label>
+                                <input type="number" class="form-control form-control-sm" id="edit-unitCost" step="0.01"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="edit-sellingPrice" class="form-label small"><i
+                                        class="fas fa-hand-holding-usd me-1"></i>តម្លៃលក់រាយ ($)</label>
+                                <input type="number" class="form-control form-control-sm" id="edit-sellingPrice"
+                                    step="0.01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="edit-supplierName" class="form-label small"><i
+                                        class="fas fa-industry me-1"></i>ឈ្មោះអ្នកលក់/ក្រុមហ៊ុន</label>
+                                <input type="text" class="form-control form-control-sm" id="edit-supplierName">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-itemNotes" class="form-label small"><i
+                                    class="fas fa-sticky-note me-1"></i>ចំណាំ</label>
+                            <textarea class="form-control form-control-sm" id="edit-itemNotes" rows="2"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">បោះបង់</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #2C0157; border-color: #2C0157;"><i class="fas fa-save"></i>
+                            រក្សាទុកការកែប្រែ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="auth-check.js"></script>
+    <script src="khmer-font.js"></script>
+    <script>
+        const inventoryRef = database.ref('inventory');
+        const salesRef = database.ref('sales'); 
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="inventory-script.js"></script>
+</body>
+
+</html>

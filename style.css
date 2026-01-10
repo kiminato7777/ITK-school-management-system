@@ -1,0 +1,253 @@
+/* --- CUSTOM PINK CSS THEME (V5 UI Focused) --- */
+:root {
+    --bs-pink-primary: #2C0157;
+    --bs-pink-dark: #1a0033;
+    --bs-pink-light: #f3e5f5;
+    --bs-body-bg: #ffffff;
+    --bs-secondary: #6c757d;
+}
+
+/* -------------------------------------------
+    1. BASE STYLES & LAYOUT
+    ------------------------------------------- */
+body {
+    font-family: 'Khmer OS Battambang', 'Arial', sans-serif;
+    background-color: var(--bs-body-bg);
+    color: #052c65;
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated background effect (from index.html) */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(10, 88, 202, 0.03) 0%, transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* -------------------------------------------
+    2. SIDEBAR STYLES (MATCHING INDEX.HTML)
+    ------------------------------------------- */
+#sidebar {
+    width: 250px;
+    min-width: 250px;
+    background: #2C0157;
+    color: white;
+    padding: 0;
+    box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px;
+    background: #2C0157;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+#sidebar-logo {
+    width: 80px;
+    height: 80px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    object-fit: cover;
+    background: white;
+    padding: 4px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Navigation Links */
+#sidebar .nav {
+    padding-top: 10px;
+}
+
+#sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    font-size: 1rem;
+    /* Standardized font size */
+}
+
+#sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+#sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-left-color: #0d6efd;
+    padding-left: 25px;
+}
+
+#sidebar .nav-link.active {
+    background: linear-gradient(90deg, #0d6efd, rgba(13, 110, 253, 0.8));
+    color: white;
+    font-weight: bold;
+    border-left-color: white;
+}
+
+/* -------------------------------------------
+    3. MAIN CONTENT & CARD STYLES
+    ------------------------------------------- */
+#main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: transparent;
+    /* Transparent so body gradient shows */
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+}
+
+/* Pink header for the main card */
+.card-header-pink {
+    background-color: var(--bs-pink-primary);
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding: 15px 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Custom background for modal header */
+.bg-pink-primary {
+    background-color: var(--bs-pink-primary) !important;
+}
+
+/* -------------------------------------------
+    4. DATA TABLE SPECIFIC STYLES
+    ------------------------------------------- */
+.table {
+    white-space: nowrap;
+    table-layout: auto;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: #2C0157;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    vertical-align: middle;
+    padding: 0.75rem 1rem;
+    border: none;
+}
+
+.table.small {
+    font-size: 0.8rem;
+}
+
+.table.small td {
+    vertical-align: middle;
+}
+
+.table.small td:last-child {
+    width: 1%;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-sm:hover {
+    transform: scale(1.05);
+}
+
+/* -------------------------------------------
+    5. RESPONSIVE MEDIA QUERIES
+    ------------------------------------------- */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    #sidebar-logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+        margin-bottom: 0;
+        border: none;
+    }
+
+    #sidebar .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-bottom: 10px;
+    }
+
+    #sidebar .nav-link {
+        padding: 10px;
+        font-size: 0.9rem;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+    }
+
+    #sidebar .nav-link:hover {
+        border-left: none;
+        padding-left: 10px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    #sidebar .nav-link.active {
+        border-left: none;
+        border-bottom-color: white;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    #main-content {
+        padding: 15px;
+        margin-left: 0;
+    }
+}

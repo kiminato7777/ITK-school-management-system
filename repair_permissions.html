@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Repair Permissions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+
+<body class="bg-light p-5">
+    <div class="card shadow p-4" style="max-width: 600px; margin: 0 auto;">
+        <h3 class="mb-3">Repair Admin Permissions</h3>
+        <p>This tool will force-update your account permissions in the database.</p>
+
+        <div id="status" class="alert alert-info">Checking Login...</div>
+
+        <button id="repairBtn" class="btn btn-primary w-100" disabled>Set Me as Admin & Repair Permissions</button>
+
+        <div class="mt-3">
+            <strong>Current User:</strong> <span id="userEmail">...</span><br>
+            <strong>UID:</strong> <span id="userUid">...</span>
+        </div>
+
+        <hr>
+        <div id="log" class="bg-dark text-light p-3 rounded"
+            style="font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const repairBtn = document.getElementById('repairBtn');
+        const userEmailEl = document.getElementById('userEmail');
+        const userUidEl = document.getElementById('userUid');
+        const logEl = document.getElementById('log');
+
+        function log(msg) {
+            logEl.innerHTML += `<div>> ${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+            console.log(msg);
+        }
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                userEmailEl.textContent = user.email;
+                userUidEl.textContent = user.uid;
+                statusEl.textContent = "Logged in. Ready to repair.";
+                statusEl.className = "alert alert-success";
+                repairBtn.disabled = false;
+
+                log(`Auth detected: ${user.email}`);
+            } else {
+                statusEl.textContent = "Not logged in. Please log in first.";
+                statusEl.className = "alert alert-warning";
+                repairBtn.disabled = true;
+                log("No user found.");
+            }
+        });
+
+        repairBtn.addEventListener('click', () => {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            log("Attempting to write to /users/" + user.uid);
+
+            const data = {
+                email: user.email,
+                role: 'Admin',
+                permissions: {
+                    dashboard: true,
+                    registration: true,
+                    data: true,
+                    inventory: true
+                },
+                lastUpdated: new Date().toISOString()
+            };
+
+            firebase.database().ref('users/' + user.uid).update(data)
+                .then(() => {
+                    log("SUCCESS: Permissions updated!");
+                    statusEl.textContent = "Success! Permissions fixed.";
+                    statusEl.className = "alert alert-success";
+                    alert("Permissions repaired successfully! Now try refreshing the main page.");
+                })
+                .catch(err => {
+                    log("ERROR: " + err.message);
+                    log("Full Error: " + JSON.stringify(err));
+                    statusEl.textContent = "Failed. See log.";
+                    statusEl.className = "alert alert-danger";
+
+                    if (err.code === 'PERMISSION_DENIED') {
+                        log("CRITICAL: You don't have permission to edit your own user node.");
+                        log("This means Security Rules are blocking 'write' to /users/" + user.uid);
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
