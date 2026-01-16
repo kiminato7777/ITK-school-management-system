@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ចុះឈ្មោះសិស្ស - TIK Student Management</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <script src="global-settings.js" defer></script>
+    <style>
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/KhmerOSBattambang.woff2') format('woff2'),
+                url('fonts/KhmerOSBattambang.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Khmer OS Battambang';
+            src: url('fonts/KhmerOSBattambang.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Khmer OS Battambang', sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+    </style>
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="registration-style.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Animated Butterflies -->
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <img src="img/logo.jpg" alt="School Logo" id="sidebar-logo">
+            </a>
+            <span class="sidebar-title-text">
+                ប្រព័ន្ធគ្រប់គ្រង
+            </span>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index.html">
+                <i class="fi fi-rr-home"></i> ផ្ទាំងគ្រប់គ្រង
+            </a>
+
+            <a class="nav-link active" href="registration.html">
+                <i class="fi fi-rr-user-add"></i> ការចុះឈ្មោះសិស្ស
+            </a>
+
+            <a class="nav-link" href="data-tracking.html">
+                <i class="fi fi-rr-document"></i> បញ្ជីទិន្នន័យសិស្ស
+            </a>
+
+            <a class="nav-link" href="dropout-students.html">
+                <i class="fi fi-rr-user-xmark"></i> សិស្សបោះបង់ការសិក្សា
+            </a>
+
+            <a class="nav-link" href="income-expense.html">
+                <i class="fi fi-rr-dollar"></i> ចំណូលចំណាយ
+            </a>
+
+
+
+            <a class="nav-link" href="user-management.html" id="navUserManagement">
+                <i class="fi fi-rr-shield-check"></i> គ្រប់គ្រងអ្នកប្រើប្រាស់
+            </a>
+
+            <hr class="sidebar-divider my-2 mx-3" style="border-top: 1px solid rgba(255,255,255,0.3);">
+
+            <!-- User Profile Section -->
+            <div class="px-3 py-2 text-white">
+                <div class="d-flex flex-column align-items-center mb-2">
+                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-2 shadow-sm"
+                        style="width: 50px; height: 50px;">
+                        <i class="fi fi-rr-user text-primary" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="font-size: 0.9rem; width: 100%; text-align: center;">
+                        <div class="fw-bold text-truncate" id="user-display-email">...</div>
+                        <div class="badge bg-light text-primary mt-1" id="user-role-badge" style="font-weight: normal;">
+                            ...</div>
+                        <div class="small text-white-50 mt-1 text-truncate" id="user-display-gmail"
+                            style="font-size: 0.8rem;">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="nav-link text-warning mt-1" href="#" id="logout-link" onclick="handleLogout(event)">
+                <i class="fi fi-rr-exit"></i> ចាកចេញ
+            </a>
+        </nav>
+    </div>
+
+    <div id="main-content">
+        <div class="card shadow-lg border-0 registration-card-main">
+            <div class="card-header border-0 py-4 text-center">
+
+                <h2 class="fw-bold mb-1" id="formTitle">ចុះឈ្មោះសិស្សថ្មី</h2>
+
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form id="studentRegistrationForm">
+                    <input type="hidden" id="reg_studentKey" name="studentKey">
+                    <input type="hidden" id="reg_studentId" name="studentId">
+
+                    <!-- Personal Information -->
+                    <div class="registration-card p-4">
+                        <div class="section-title">
+                            <i class="fi fi-rr-id-card me-2 text-primary"></i> ព័ត៌មានផ្ទាល់ខ្លួន (Personal
+                            Information)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">អត្តលេខរៀង (ID)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-id-badge text-primary"></i></span>
+                                    <input type="text" class="form-control fw-bold text-center bg-white"
+                                        id="reg_displayId" placeholder="Auto or Custom">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">នាមត្រកូល និងនាមខ្លួន (ខ្មែរ)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-user text-primary"></i></span>
+                                    <input type="text" class="form-control" id="reg_fullNameKhmer"
+                                        placeholder="ឧៈ ស៊ុម សុខសាន" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label class="form-label fw-bold">FullName in English</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-text text-primary"></i></span>
+                                    <input type="text" class="form-control" id="reg_fullNameEnglish"
+                                        placeholder="Example: SUM SOKSAN">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">ភេទ (Gender)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-intersex text-primary"></i></span>
+                                    <select class="form-select" id="reg_gender" required>
+                                        <option value="">ជ្រើសរើសភេទ...</option>
+                                        <option value="Male">ប្រុស (Male)</option>
+                                        <option value="Female">ស្រី (Female)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">ថ្ងៃខែឆ្នាំកំណើត (DOB)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-cake-birthday text-primary"></i></span>
+                                    <input type="text" class="form-control date-picker" id="reg_dob"
+                                        placeholder="YYYY-MM-DD">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold font-khmer">ជំនាន់ (Generation)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-layers text-primary"></i></span>
+                                    <input type="text" class="form-control" id="reg_generation"
+                                        placeholder="ជំនាន់ទី...">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">អាសយដ្ឋានបច្ចុប្បន្ន</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-marker text-primary"></i></span>
+                                    <input type="text" class="form-control" id="reg_studentAddress"
+                                        placeholder="ភូមិ ឃុំ/សង្កាត់ ស្រុក/ក្រុង ខេត្ត">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Study Details & Financial (Simple Revert) -->
+                    <div class="registration-card p-4">
+                        <div class="section-title">
+                            <i class="fi fi-rr-graduation-cap me-2 text-success"></i> ព័ត៌មានសិក្សា និងការទូទាត់
+                            (Study & Financial)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">ថ្នាក់រៀន (Class/Level)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-layers text-success"></i></span>
+                                    <input type="text" class="form-control" id="reg_studyLevel">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">មុខវិជ្ជា (Subject)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-book text-success"></i></span>
+                                    <input type="text" class="form-control" id="reg_subject">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">ម៉ោងសិក្សា (Study Time)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-clock text-success"></i></span>
+                                    <select class="form-select" id="reg_studyTime" onchange="toggleCustomStudyTime()">
+                                        <option value="">ជ្រើសរើសម៉ោង...</option>
+                                        <option value="8:00-10:30ថ្ងៃ">8:00-10:30ថ្ងៃ</option>
+                                        <option value="1:00-3:30ល្ងាច">1:00-3:30ល្ងាច</option>
+                                        <option value="1:00-2:00ល្ងាច">1:00-2:00ល្ងាច</option>
+                                        <option value="2:00pm-3:00pm">2:00pm-3:00pm</option>
+                                        <option value="3:00pm-4:00pm">3:00pm-4:00pm</option>
+                                        <option value="5:00pm-6:00pm">5:00pm-6:00pm</option>
+                                        <option value="6:00pm-7:00pm">6:00pm-7:00pm</option>
+                                        <option value="7:00pm-8:00pm">7:00pm-8:00pm</option>
+                                        <option value="custom">បញ្ចូលម៉ោងផ្សេងៗ...</option>
+                                    </select>
+                                </div>
+                                <div id="customStudyTimeContainer" class="mt-2" style="display: none;">
+                                    <input type="text" class="form-control" id="reg_customStudyTime"
+                                        placeholder="បញ្ចូលម៉ោងសិក្សាដែលអ្នកចង់បាន...">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">គ្រូបង្រៀន (Teacher)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-chalkboard-user text-success"></i></span>
+                                    <input type="text" class="form-control" id="reg_teacherName">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label fw-bold">ស្ថានភាពសិស្ស (Status)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fi fi-rr-user-tag text-success"></i></span>
+                                    <select class="form-select" id="reg_status">
+                                        <option value="active" selected>កំពុងសិក្សា (Active)</option>
+                                        <option value="dropout">បោះបង់ការសិក្សា (Dropout)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 mb-2">
+                                <h6 class="fw-bold border-bottom pb-2"><i
+                                        class="fi fi-rr-credit-card me-2 text-primary"></i>លក្ខខណ្ឌបង់ប្រាក់
+                                    (Payment Conditions)</h6>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold mb-2">ប្រភេទសិស្ស (Student Type)</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="custom-radio-payment shadow-sm h-100">
+                                            <input class="form-check-input" type="radio" name="studentType" id="st_new"
+                                                value="new" checked>
+                                            <label class="form-check-label rounded-3 p-3 border w-100 text-center h-100"
+                                                for="st_new">
+                                                <i class="fi fi-rr-user-add mb-2 text-primary fs-4"></i>
+                                                <span class="d-block fw-bold">សិស្សថ្មី</span>
+                                                <small class="text-muted">New Student</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="custom-radio-payment shadow-sm h-100">
+                                            <input class="form-check-input" type="radio" name="studentType" id="st_old"
+                                                value="old">
+                                            <label class="form-check-label rounded-3 p-3 border w-100 text-center h-100"
+                                                for="st_old">
+                                                <i class="fi fi-rr-user-check mb-2 text-success fs-4"></i>
+                                                <span class="d-block fw-bold">សិស្សចាស់</span>
+                                                <small class="text-muted">Old Student</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold mb-2">ជម្រើសបង់ប្រាក់ (Payment Option)</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="custom-radio-payment shadow-sm h-100">
+                                            <input class="form-check-input" type="radio" name="paymentType"
+                                                id="pt_normal" value="normal" checked>
+                                            <label class="form-check-label rounded-3 p-3 border w-100 text-center h-100"
+                                                for="pt_normal">
+                                                <i class="fi fi-rr-calendar-day mb-2 text-primary fs-4"></i>
+                                                <span class="d-block fw-bold">បង់ធម្មតា</span>
+                                                <small class="text-muted">Monthly (1 Month)</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="custom-radio-payment shadow-sm h-100">
+                                            <input class="form-check-input" type="radio" name="paymentType"
+                                                id="pt_special" value="special">
+                                            <label class="form-check-label rounded-3 p-3 border w-100 text-center h-100"
+                                                for="pt_special">
+                                                <i class="fi fi-rr-gift mb-2 text-warning fs-4"></i>
+                                                <span class="d-block fw-bold text-warning">កញ្ចប់ពិសេស</span>
+                                                <small class="text-muted">Pack (3, 6, 12 Months)</small>
+
+                                                <div id="specialOptionsContainer" style="display: none;"
+                                                    class="mt-2 w-100 px-2">
+                                                    <select
+                                                        class="form-select form-select-sm text-center fw-bold border-warning"
+                                                        id="reg_specialDuration" style="background-color: #fffdf5;">
+                                                        <option value="3">បង់កញ្ចប់ 3 ខែ</option>
+                                                        <option value="6">បង់កញ្ចប់ 6 ខែ</option>
+                                                        <option value="12">បង់កញ្ចប់ 12 ខែ</option>
+                                                    </select>
+                                                </div>
+                                                <span id="specialTag"
+                                                    class="badge bg-warning text-dark mt-2 d-none">បង់ជាកញ្ចប់</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 mb-2">
+                                <h6 class="fw-bold border-bottom pb-2"><i
+                                        class="fi fi-rr-money-bill-wave me-2 text-primary"></i>ការបង់ប្រាក់
+                                    (Payment Details)</h6>
+                            </div>
+
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">ថ្លៃសិក្សា ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fi fi-rr-dollar"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_tuitionFee_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">រយៈពេល (ខែ)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fi fi-rr-calendar-day"></i></span>
+                                    <input type="number" class="form-control" id="reg_studyDuration_manual" value="1">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">ថ្លៃសម្ភារៈ ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fi fi-rr-box"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_materialFee_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">ថ្លៃរដ្ឋបាល ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fi fi-rr-document"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_adminFee_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">បង់ដំបូង ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-hand-holding-usd text-primary"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_initialPayment_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">បង់បន្ថែម ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-add-document text-primary"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_extraPayment_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">បញ្ចុះ ($)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fi fi-rr-tag text-primary"></i></span>
+                                    <input type="number" step="0.01" class="form-control" id="reg_discount_manual"
+                                        value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label small fw-bold">បញ្ចុះ (%)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-percentage text-primary"></i></span>
+                                    <input type="number" step="0.01" class="form-control"
+                                        id="reg_discountPercent_manual" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 mb-2">
+                                <h6 class="fw-bold border-bottom pb-2"><i
+                                        class="fi fi-rr-calendar me-2 text-primary"></i>កាលបរិច្ឆេទសំខាន់ៗ
+                                    (Important Dates)</h6>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label small fw-bold">ថ្ងៃចូលរៀន (Start Date)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-calendar-plus text-success"></i></span>
+                                    <input type="text" class="form-control date-picker" id="reg_startDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label small fw-bold">ថ្ងៃបង់ប្រាក់ចូលរៀន (Payment
+                                    Date)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-calendar-check text-info"></i></span>
+                                    <input type="text" class="form-control date-picker" id="reg_paymentDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label small fw-bold">កាលបរិច្ឆេទកំណត់បង់ (Due Date)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-calendar-exclamation text-danger"></i></span>
+                                    <input type="text" class="form-control date-picker" id="reg_dueDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label small fw-bold">កាលបរិច្ឆេទកំណត់បង់បន្ទាប់ (Next
+                                    Due)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
+                                            class="fi fi-rr-calendar-clock text-warning"></i></span>
+                                    <input type="text" class="form-control date-picker" id="reg_nextDueDate" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12 text-end">
+                                <div class="d-inline-block p-3 bg-light rounded shadow-sm border text-start"
+                                    style="min-width: 250px;">
+                                    <div class="d-flex justify-content-between mb-1"><span
+                                            class="small text-muted">សរុបត្រូវបង់:</span> <span class="fw-bold"
+                                            id="summaryTotalFees">$0.00</span></div>
+                                    <div class="d-flex justify-content-between mb-1 text-success"><span
+                                            class="small">បង់បានសរុប:</span> <span class="fw-bold"
+                                            id="summaryPaid">$0.00</span></div>
+                                    <div class="d-flex justify-content-between border-top pt-2"><span
+                                            class="fw-bold">នៅខ្វះ (Balance):</span> <span
+                                            class="h5 fw-bold text-danger mb-0" id="summaryBalance">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guardian Information -->
+                    <div class="registration-card p-4">
+                        <div class="section-title">
+                            <i class="fi fi-rr-users me-2 text-warning"></i> ព័ត៌មានអាណាព្យាបាល (Guardian
+                            Information)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 border-end">
+                                <h6 class="fw-bold mb-3"><i class="fi fi-rr-member-list text-primary me-2"></i>ឪពុក
+                                    (Father) </h6>
+                                <div class="row g-2">
+                                    <div class="col-12"><label class="small">ឈ្មោះ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-user text-primary"></i></span><input type="text"
+                                                class="form-control" id="reg_fatherName"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">មុខរបរ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-briefcase text-primary"></i></span><input
+                                                type="text" class="form-control" id="reg_fatherJob"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">លេខទូរស័ព្ទ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-phone-call text-primary"></i></span><input
+                                                type="text" class="form-control" id="reg_fatherPhone"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">អាសយដ្ឋាន</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-home text-primary"></i></span><textarea
+                                                class="form-control" id="reg_fatherAddress" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ps-md-4">
+                                <h6 class="fw-bold mb-3"><i class="fi fi-rr-member-list text-danger me-2"></i>ម្តាយ
+                                    (Mother)</h6>
+                                <div class="row g-2">
+                                    <div class="col-12"><label class="small">ឈ្មោះ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-user text-danger"></i></span><input type="text"
+                                                class="form-control" id="reg_motherName"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">មុខរបរ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-briefcase text-danger"></i></span><input type="text"
+                                                class="form-control" id="reg_motherJob"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">លេខទូរស័ព្ទ</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-phone-call text-danger"></i></span><input
+                                                type="text" class="form-control" id="reg_motherPhone"></div>
+                                    </div>
+                                    <div class="col-12"><label class="small">អាសយដ្ឋាន</label>
+                                        <div class="input-group"><span class="input-group-text"><i
+                                                    class="fi fi-rr-home text-danger"></i></span><textarea
+                                                class="form-control" id="reg_motherAddress" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
+                        <button type="button" class="btn btn-light px-4 py-2 border rounded-pill order-2 order-md-1"
+                            id="resetBtn">
+                            <i class="fi fi-rr-refresh me-2"></i> ចាប់ផ្តើមថ្មី
+                        </button>
+                        <div class="d-flex gap-2 order-1 order-md-2 w-100 w-md-auto">
+                            <div id="editButtons" style="display: none;" class="w-100 d-flex gap-2">
+                                <button type="button" class="btn btn-secondary px-4 py-2 rounded-pill flex-grow-1"
+                                    id="cancelEditBtn"><i class="fi fi-rr-cross-small me-2"></i> បោះបង់</button>
+                                <button type="button" class="btn btn-success px-5 py-2 rounded-pill flex-grow-1"
+                                    id="updateBtn"><i class="fi fi-rr-disk me-2"></i> រក្សាទុក</button>
+                            </div>
+                            <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow w-100"
+                                id="submitBtn">
+                                <i class="fi fi-rr-disk me-2"></i> ចុះឈ្មោះសិស្ស
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer class="app-footer">
+            <p><i class="fi fi-rr-copyright me-1"></i> 2026 គ្រប់គ្រងសាលា.</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="auth-check.js"></script>
+    <script src="khmer-font.js"></script>
+    <script src="registration-script.js"></script>
+    <script>
+        function toggleCustomStudyTime() {
+            const select = document.getElementById('reg_studyTime');
+            const customContainer = document.getElementById('customStudyTimeContainer');
+            if (select.value === 'custom') {
+                customContainer.style.display = 'block';
+                document.getElementById('reg_customStudyTime').focus();
+            } else {
+                customContainer.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>
